@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>YouTube Player API Sample</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=RocknRoll+One&display=swap" rel="stylesheet">
+        <style>
+            .wrapper {
+                display: grid;
+                grid-template-columns: 640px 1fr;
+            }
+            #player {
+                width: 640px;
+                height: 360px;
+            }
+            #video-list {
+                margin-left: 4px;
+                height: 800px;
+                overflow: auto;
+            }
+
+            #video-list > button {
+                font-family: "RocknRoll One", serif;
+                font-weight: 400;
+                font-style: normal;
+                border: none;
+                border-left: solid 8px #EC1D2F;/*左側の線*/
+                background-color: whitesmoke;
+                margin-bottom: 5px;/*下のバーとの余白*/
+                line-height: 1.5;
+                border-radius: 0 15px 15px 0;/*右側の角だけ丸く*/
+                width: 100%;
+                text-align: left;
+            }
+
+            #video-list > button:hover {
+                background-color: #f0f0f0;
+            }
+        </style>
+    </head>
+  <body>
+    <h1>まいっかボタン</h1>
+    <div class="wrapper">
+        <!-- 1. The <iframe> (and video player) will replace this <div> tag. -->
+        <div>
+            <div id="player"></div>
+            <div>
+                <h2>再生中の動画</h2>
+                <div id="player-info"></div>
+                <h2>説明</h2>
+                <div id="site-description">
+                    <ul>
+                        <li>にじさんじ所属バーチャルライバー、フレン・E・ルスタリオさんの「まいっか」を自動収集した非公式ファンサイトです。</li>
+                        <li>本サイトで再生すると当該Youtube枠の再生数にカウントされます。</li>
+                        <li>関連サイト: <a href="https://furen-button.github.io/furen-button/">フレンボタン</a></li>
+                    </ul>
+                </div>
+                <h3>収集アルゴリズム</h3>
+                <div>
+                    動画のライブチャットで一定時間内に「まいっか」というコメントが3回出たタイミングを検知します。最初の「まいっか」が出た時間の一定時間前から再生します。<br>
+                    全部確認しきれていないため誤検知があるかもしれません。ご了承ください。
+                </div>
+            </div>
+        </div>
+        <div id="video-list"></div>
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>
