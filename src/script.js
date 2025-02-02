@@ -22,7 +22,6 @@ function onYouTubeIframeAPIReady() {
 // 4. The API will call this function when the video player is ready.
 function onPlayerReady(event) {
     createVideoDataButtons();
-    event.target.playVideo();
 }
 
 const videoData = [
@@ -2919,6 +2918,22 @@ function convertSecondsToHms(seconds) {
     return `${hh}:${mm}:${ss}`;
 }
 
+function playVideo(video) {
+  const videoId = video.videoId;
+  const startTime = video.startTime;
+  player.loadVideoById(videoId, startTime); // ボタンがクリックされたら動画を変更
+  const playerInfo = document.getElementById('player-info');
+  playerInfo.innerHTML = '';
+  playerInfo.textContent = 'YouTube で見る: ';
+  const aLink = document.createElement('a');
+  aLink.href = video.startUrl;
+  aLink.textContent = `${video.title} (${convertSecondsToHms(video.startTime)})`;
+  playerInfo.appendChild(aLink);
+  const divContent = document.createElement('div');
+  divContent.textContent = video.publishedAt.split('T')[0];
+  playerInfo.appendChild(divContent);
+}
+
 function createVideoDataButtons() {
     // 動画リストを作成
     const videoList = document.getElementById('video-list');
@@ -2926,17 +2941,10 @@ function createVideoDataButtons() {
         const button = document.createElement('button');
         button.textContent = `${video.title} (${convertSecondsToHms(video.startTime)})`;
         button.addEventListener('click', () => {
-            const videoId = video.videoId;
-            const startTime = video.startTime;
-            player.loadVideoById(videoId, startTime); // ボタンがクリックされたら動画を変更
-            const playerInfo = document.getElementById('player-info');
-            playerInfo.innerHTML = '';
-            playerInfo.textContent = 'YouTube で見る: ';
-            const aLink = document.createElement('a');
-            aLink.href = video.startUrl;
-            aLink.textContent = `${video.title} (${convertSecondsToHms(video.startTime)})`;
-            playerInfo.appendChild(aLink);
+          playVideo(video);
         });
         videoList.appendChild(button);
     });
+    const randomIndex = Math.floor(Math.random() * videoData.length);
+    playVideo(videoData[randomIndex]);
 }
