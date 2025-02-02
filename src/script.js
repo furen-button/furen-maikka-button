@@ -6294,12 +6294,27 @@ function playVideo(video) {
   playerInfo.appendChild(divContent);
 }
 
+// publishedAt 文字列から年を取得する
+function getYear(publishedAt) {
+  const year = parseInt(publishedAt.split('-')[0]);
+  return year;
+}
+
 function createVideoDataButtons() {
     // 動画リストを作成
     const videoList = document.getElementById('video-list');
     let no = 1;
+    let year = 0;
     videoData.forEach(video => {
+        if (year !== getYear(video.publishedAt)) {
+          year = getYear(video.publishedAt);
+          const divYear = document.createElement('div');
+          divYear.classList.add('year');
+          divYear.textContent = year;
+          videoList.appendChild(divYear);
+        }
         const button = document.createElement('button');
+        button.classList.add('video-button');
         button.textContent = `[${no}] ${video.title} (${convertSecondsToHms(video.startTime)})`;
         no++;
         button.addEventListener('click', () => {

@@ -45,22 +45,33 @@
                 overflow: auto;
             }
 
-            #video-list > button {
+            .video-button {
                 font-family: "RocknRoll One", serif;
                 font-weight: 400;
                 font-style: normal;
+                font-size: 1em;
                 border: none;
                 border-left: solid 8px #EC1D2F;/*左側の線*/
                 background-color: whitesmoke;
-                margin-bottom: 5px;/*下のバーとの余白*/
-                line-height: 1.5;
+                margin-top: 3px;/*上のバーとの余白*/
+                margin-bottom: 3px;/*下のバーとの余白*/
                 border-radius: 0 15px 15px 0;/*右側の角だけ丸く*/
                 width: 100%;
                 text-align: left;
             }
 
-            #video-list > button:hover {
+            .video-button:hover {
                 background-color: #f0f0f0;
+            }
+
+            .year {
+                font-family: "RocknRoll One", serif;
+                font-weight: 400;
+                font-style: normal;
+                font-size: 3em;
+                color: #333333;
+                text-align: center;
+                width: 100%;
             }
         </style>
     </head>
@@ -77,7 +88,10 @@
                 <div id="site-description">
                     <ul>
                         <li>にじさんじ所属バーチャルライバー、フレン・E・ルスタリオさんの「まいっか」を自動収集した非公式ファンサイトです。</li>
-                        <li>本サイトで再生すると当該Youtube枠の再生数にカウントされます。</li>
+                        <li>ボタンをクリックすると該当のシーンが再生されます。</li>
+                        <li>本サイトで再生すると当該YouTube枠の再生数にカウントされます。</li>
+                        <li>本サイトで再生できない動画もあります。その場合は「再生中の動画」の欄のリンクからYouTubeで見れます。</li>
+                        <li>PCのブラウザで動作確認しています。</li>
                         <li>関連サイト: <a href="https://furen-button.github.io/furen-button/">フレンボタン</a></li>
                     </ul>
                 </div>
@@ -87,6 +101,8 @@
                     全部確認しきれていないため誤検知があるかもしれません。ご了承ください。<br>
                     2021-12-03 以前が少ないのは、この日の「40万人記念！自分の切り抜きを見るぞ！！【にじさんじ】」の動画の【まいっか】切り抜きの同時視聴後に「まいっか」というコメントが多くなったためです。表記ゆれの統一、バーダー・マインホフ現象、コミュニティの暗黙知から形式知へ。
                 </div>
+                <h3>更新日</h3>
+                <div>2025-02-02: 780件</div>
             </div>
         </div>
         <div id="video-list"></div>
