@@ -6278,20 +6278,51 @@ function convertSecondsToHms(seconds) {
     return `${hh}:${mm}:${ss}`;
 }
 
+// 再生開始からお問い合わせフォームの表示時間[s]
+const FORM_TIME = 20 * 1000;
+
+// お問い合わせの表示
+function showForm(playerInfo, titleText) {
+  const aWarningLink = document.createElement('a');
+  const formUrl = [
+    "https://docs.google.com/forms/d/e/1FAIpQLScHja9YvKUg8U0fIIcN44_JG0tIVnMSnY9VDExAvSXWjLrXHg/viewform?",
+    "usp=pp_url&",
+    "entry.69819494=%E3%83%9F%E3%82%B9%E5%A0%B1%E5%91%8A&",
+    "entry.1514793395=", encodeURI(titleText)
+  ].join('');
+  aWarningLink.href = formUrl;
+  aWarningLink.textContent = 'こちら';
+  aWarningLink.target = '_blank';
+  const divWarning = document.createElement('div');
+  divWarning.innerHTML = `再生開始から20秒経過しました。もし「まいっか」がなければ ${aWarningLink.outerHTML} から報告お願いいたします。`;
+  playerInfo.appendChild(divWarning);
+}
+
+// お問い合わせフォームの表示スケジュール
+let showFormSchedule = null;
+
 function playVideo(video) {
   const videoId = video.videoId;
   const startTime = video.startTime;
+  const titleText = `${video.title} (${convertSecondsToHms(video.startTime)})`
   player.loadVideoById(videoId, startTime); // ボタンがクリックされたら動画を変更
   const playerInfo = document.getElementById('player-info');
   playerInfo.innerHTML = '';
   playerInfo.textContent = 'YouTube で見る: ';
   const aLink = document.createElement('a');
   aLink.href = video.startUrl;
-  aLink.textContent = `${video.title} (${convertSecondsToHms(video.startTime)})`;
+  aLink.textContent = titleText;
   playerInfo.appendChild(aLink);
   const divContent = document.createElement('div');
   divContent.textContent = video.publishedAt.split('T')[0];
   playerInfo.appendChild(divContent);
+  // 指定秒数後にお問い合わせフォームを表示する
+  if (showFormSchedule !== null) {
+    clearTimeout(showFormSchedule);
+  }
+  showFormSchedule = setTimeout(() => {
+    showForm(playerInfo, titleText);
+  }, FORM_TIME);
 }
 
 // publishedAt 文字列から年を取得する
