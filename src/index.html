@@ -42,11 +42,16 @@
                 text-align: center;
             }
 
-            .wrapper {
-                display: grid;
-                grid-template-columns: 640px 1fr;
+            /* 画面幅が十分なら grid にする */
+            @media (min-width: 900px) {
+                .wrapper {
+                    display: grid;
+                    grid-template-columns: 640px 1fr;
+                }
             }
+
             #player {
+                max-width: 100%;
                 width: 640px;
                 height: 360px;
             }
