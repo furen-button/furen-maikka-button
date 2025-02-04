@@ -34,12 +34,41 @@
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Mochiy+Pop+One&family=RocknRoll+One&display=swap" rel="stylesheet">
         <style>
-            .logo {
+            .title {
+                text-align: center;
                 font-family: "Mochiy Pop One", serif;
                 font-size: 3em;
+            }
+
+            .logo {
                 color: #EC1D2F;
                 text-shadow: 2px 2px 0 darkred;
-                text-align: center;
+                letter-spacing: 0.5rem;
+                cursor: pointer;
+                text-decoration: none;
+            }
+
+            .shuffle-button-container {
+                display: inline-block;
+                width: 64px;
+                height: 64px;
+                margin-left: 8px;
+                vertical-align: middle;
+            }
+
+            .shuffle-button-image {
+                width: 100%;
+                height: 100%;
+                transition: opacity 0.3s ease;
+            }
+
+            .shuffle-button-container:hover .shuffle-button-image {
+                opacity: 0;
+            }
+
+            .shuffle-button-container:hover {
+                background-image: url("img/shuffle_on_24dp_EC1D2F_FILL0_wght400_GRAD0_opsz24.png");
+                background-size: cover;
             }
 
             /* 画面幅が十分なら grid にする */
@@ -92,7 +121,10 @@
         </style>
     </head>
   <body>
-    <h1 class="logo">まいっかボタン</h1>
+    <h1 class="title">
+        <a href="." class="logo">まいっかボタン</a>
+        <a id="shuffle-button" class="shuffle-button-container"><img src="img/shuffle_24dp_EC1D2F_FILL0_wght400_GRAD0_opsz24.png" alt="シャッフル再生" class="shuffle-button-image"></a>
+    </h1>
     <div class="wrapper">
         <div>
             <div id="player"></div>

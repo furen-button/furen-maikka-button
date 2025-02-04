@@ -6353,6 +6353,14 @@ function createVideoDataButtons() {
         });
         videoList.appendChild(button);
     });
-    const randomIndex = Math.floor(Math.random() * videoData.length);
-    playVideo(videoData[randomIndex]);
+    {
+      const randomIndex = Math.floor(Math.random() * videoData.length);
+      playVideo(videoData[randomIndex]);
+    }
+    // シャッフルボタン設定
+    const shuffleButton = document.getElementById('shuffle-button');
+    shuffleButton.addEventListener('click', () => {
+      const randomIndex = Math.floor(Math.random() * videoData.length);
+      playVideo(videoData[randomIndex]);
+    });
 }
