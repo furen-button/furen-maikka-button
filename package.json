@@ -1,0 +1,14 @@
+{
+  "name": "furen-maikka-button",
+  "version": "1.0.0",
+  "description": "にじさんじ所属バーチャルライバー、フレン・E・ルスタリオさんの「まいっか」を自動収集する非公式ファンサイト",
+  "scripts": {
+    "start": "http-server src",
+    "lint": "eslint src/**/*.js",
+    "lint:fix": "eslint src/**/*.js --fix"
+  },
+  "devDependencies": {
+    "eslint": "^7.32.0",
+    "http-server": "^14.1.1"
+  }
+}
