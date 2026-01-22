@@ -538,8 +538,8 @@
             }
 
             .video-list-container {
-                max-height: 10000px;
-                overflow: hidden;
+                max-height: none;
+                overflow: visible;
                 transition: max-height 0.5s ease, opacity 0.3s ease;
                 opacity: 1;
             }
@@ -547,6 +547,7 @@
             .video-list-container.collapsed {
                 max-height: 0;
                 opacity: 0;
+                overflow: hidden;
             }
 
             .year::after {
