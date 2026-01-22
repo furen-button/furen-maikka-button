@@ -85,9 +85,6 @@
 
             /* スコア表示 */
             #score-display {
-                position: fixed;
-                top: 20px;
-                right: 20px;
                 background: rgba(236, 29, 47, 0.9);
                 color: white;
                 padding: 18px 25px;
@@ -95,8 +92,14 @@
                 font-family: "Mochiy Pop One", serif;
                 font-size: 1.4em;
                 box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-                z-index: 1000;
                 animation: scoreFloat 0.5s ease;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                min-width: 120px;
+                height: 90px;
+                flex-shrink: 0;
+                text-align: center;
             }
 
             @keyframes scoreFloat {
@@ -787,9 +790,6 @@
     </head>
   <body>
     <div id="particles"></div>
-    <div id="score-display">
-        <div>スコア: <span id="score">0</span></div>
-    </div>
     <h1 class="title">
         <a href="." class="logo">まいっかボタン</a>
     </h1>
@@ -803,6 +803,9 @@
                 <a id="shuffle-button" class="shuffle-button-container">
                     <img src="img/shuffle_24dp_EC1D2F_FILL0_wght400_GRAD0_opsz24.png" alt="シャッフル再生" class="shuffle-button-image">
                 </a>
+                <div id="score-display">
+                    <div>スコア: <span id="score">0</span></div>
+                </div>
             </div>
             <div>
                 <h2>再生中の動画</h2>
