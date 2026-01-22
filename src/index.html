@@ -104,61 +104,94 @@
             .title {
                 text-align: center;
                 font-family: "Mochiy Pop One", serif;
-                font-size: 4em;
+                font-size: 3.5em;
                 margin: 30px 0;
                 position: relative;
+                padding: 40px 0;
             }
 
             @keyframes titleBounce {
                 0%, 100% { transform: translateY(0) scale(1); }
-                50% { transform: translateY(-15px) scale(1.05); }
+                50% { transform: translateY(-5px) scale(1.01); }
+            }
+
+            @keyframes shine {
+                0% { left: -150%; }
+                50%, 100% { left: 150%; }
             }
 
             .logo {
                 color: #FFD700;
                 text-shadow: 
-                    3px 3px 0 #EC1D2F,
-                    6px 6px 0 darkred,
-                    0 0 30px rgba(255, 215, 0, 0.8),
-                    0 0 60px rgba(236, 29, 47, 0.5);
-                letter-spacing: 0.5rem;
+                    1px 1px 0 #000,
+                    2px 2px 0 #EC1D2F,
+                    3px 3px 0 darkred,
+                    0 0 15px rgba(255, 215, 0, 0.8);
+                letter-spacing: 0.2rem;
                 cursor: pointer;
                 text-decoration: none;
                 display: inline-block;
-                transition: all 0.3s ease;
-                animation: titleBounce 2s ease-in-out infinite;
-                background: linear-gradient(45deg, #FFD700, #FFA500, #FF6347);
+                transition: all 0.4s ease;
+                animation: titleBounce 4s ease-in-out infinite;
+                background: linear-gradient(180deg, #FFD700 0%, #FFA500 50%, #FF8C00 100%);
                 -webkit-background-clip: text;
                 -webkit-text-fill-color: transparent;
                 background-clip: text;
-                filter: drop-shadow(3px 3px 0 #EC1D2F) drop-shadow(6px 6px 0 darkred);
-                padding: 10px 20px;
-                border-radius: 20px;
+                padding: 30px 60px;
                 position: relative;
+                filter: drop-shadow(2px 2px 0 #EC1D2F) drop-shadow(3px 3px 0 darkred);
             }
 
+            /* エンブレム背景 */
             .logo::before {
                 content: '';
                 position: absolute;
-                top: -10px;
-                left: -10px;
-                right: -10px;
-                bottom: -10px;
-                background: linear-gradient(45deg, #EC1D2F, #FFD700, #EC1D2F);
-                border-radius: 25px;
-                z-index: -1;
-                opacity: 0.3;
-                animation: logoBg 3s ease-in-out infinite;
+                top: 0;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 120%;
+                height: 100%;
+                background: linear-gradient(135deg, #EC1D2F 0%, #DC143C 50%, #8B0000 100%);
+                border-radius: 20px;
+                z-index: -2;
+                clip-path: polygon(
+                    10% 0%, 90% 0%, 100% 10%, 100% 90%, 90% 100%, 10% 100%, 0% 90%, 0% 10%
+                );
+                box-shadow: 
+                    0 10px 30px rgba(0, 0, 0, 0.4),
+                    inset 0 -5px 15px rgba(0, 0, 0, 0.4),
+                    inset 0 5px 15px rgba(255, 255, 255, 0.2);
             }
 
-            @keyframes logoBg {
-                0%, 100% { transform: scale(1); opacity: 0.3; }
-                50% { transform: scale(1.1); opacity: 0.5; }
+            /* 装飾的な枠線 */
+            .logo::after {
+                content: '';
+                position: absolute;
+                top: -5px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: calc(120% + 10px);
+                height: calc(100% + 10px);
+                background: linear-gradient(45deg, #FFD700, #FFA500);
+                border-radius: 22px;
+                z-index: -3;
+                clip-path: polygon(
+                    10% 0%, 90% 0%, 100% 10%, 100% 90%, 90% 100%, 10% 100%, 0% 90%, 0% 10%
+                );
+            }
+
+            /* 光るエフェクト */
+            .logo:hover::before {
+                box-shadow: 
+                    0 15px 40px rgba(236, 29, 47, 0.6),
+                    inset 0 -5px 15px rgba(0, 0, 0, 0.4),
+                    inset 0 5px 15px rgba(255, 255, 255, 0.3),
+                    0 0 30px rgba(255, 215, 0, 0.5);
             }
 
             .logo:hover {
-                transform: scale(1.15) rotate(-2deg);
-                animation: none;
+                transform: scale(1.05);
+                animation: titleBounce 2s ease-in-out infinite;
             }
 
             .shuffle-button-container {
