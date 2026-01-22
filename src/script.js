@@ -6,12 +6,15 @@ const autoplayCheckbox = document.getElementById("autoplay");
 
 var player;
 
+// ゲーム要素: スコア
+let score = 0;
+
 // eslint-disable-next-line no-unused-vars
 function onYouTubeIframeAPIReady() {
   // eslint-disable-next-line no-undef
   player = new YT.Player("player", {
-    height: "360",
-    width: "640",
+    height: "450",
+    width: "800",
     videoId: "6dh2TTlvBdY",
     events: {
       "onReady": onPlayerReady,
@@ -100,13 +103,21 @@ function playVideo(video) {
   {
     const playerInfo = document.getElementById("player-info");
     playerInfo.innerHTML = "";
-    playerInfo.textContent = "YouTube で見る: ";
+    
+    // タイトルリンク
+    const titleWrapper = document.createElement("div");
+    titleWrapper.style.marginBottom = "8px";
+    titleWrapper.innerHTML = "🎬 ";
     const aLink = document.createElement("a");
     aLink.href = video.startUrl;
+    aLink.target = "_blank";
     aLink.textContent = titleText;
-    playerInfo.appendChild(aLink);
+    titleWrapper.appendChild(aLink);
+    playerInfo.appendChild(titleWrapper);
+    
+    // 日付表示
     const divContent = document.createElement("div");
-    divContent.textContent = video.publishedAt.split("T")[0];
+    divContent.innerHTML = `📅 ${video.publishedAt.split("T")[0]}`;
     playerInfo.appendChild(divContent);
   }
   resetProgress();
@@ -141,6 +152,8 @@ function createVideoDataButtons() {
   const videoList = document.getElementById("video-list");
   let no = 1;
   let year = 0;
+  let currentYearContainer = null;
+  
   videoData.forEach(video => {
     if (year !== getYear(video.publishedAt)) {
       year = getYear(video.publishedAt);
@@ -148,15 +161,31 @@ function createVideoDataButtons() {
       divYear.classList.add("year");
       divYear.textContent = year;
       videoList.appendChild(divYear);
+      
+      // 年ごとにグリッドコンテナを作成
+      currentYearContainer = document.createElement("div");
+      currentYearContainer.classList.add("video-list-container");
+      videoList.appendChild(currentYearContainer);
     }
+    
     const button = document.createElement("button");
     button.classList.add("video-button");
-    button.textContent = `[${no}] ${video.title} (${convertSecondsToHms(video.startTime)})`;
+    
+    // ボタンテキストを整形
+    const buttonText = document.createElement("span");
+    buttonText.style.position = "relative";
+    buttonText.style.zIndex = "1";
+    buttonText.style.paddingLeft = "30px";
+    buttonText.textContent = `[${no}] ${video.title} (${convertSecondsToHms(video.startTime)})`;
+    button.appendChild(buttonText);
+    
     no++;
     button.addEventListener("click", () => {
       playVideo(video);
     });
-    videoList.appendChild(button);
+    // ゲームエフェクトを追加
+    addGameEffectsToButton(button);
+    currentYearContainer.appendChild(button);
   });
 }
 
@@ -173,11 +202,55 @@ function drawProgressBar() {
   progress += interval / 1000;
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   const percent = Math.min(1, Math.max(0, progress / duration));
-  ctx.fillStyle = "blue";
+  
+  // グラデーション効果
+  const gradient = ctx.createLinearGradient(0, 0, canvas.width, 0);
   if (percent > 0.8) {
-    ctx.fillStyle = "red";
+    // 警告色（赤系）
+    gradient.addColorStop(0, "#FF6347");
+    gradient.addColorStop(0.5, "#FF4500");
+    gradient.addColorStop(1, "#DC143C");
+  } else if (percent > 0.5) {
+    // 中間色（黄色系）
+    gradient.addColorStop(0, "#FFD700");
+    gradient.addColorStop(0.5, "#FFA500");
+    gradient.addColorStop(1, "#FF8C00");
+  } else {
+    // 安全色（青〜緑系）
+    gradient.addColorStop(0, "#00CED1");
+    gradient.addColorStop(0.5, "#4169E1");
+    gradient.addColorStop(1, "#1E90FF");
   }
-  ctx.fillRect(0, 0, canvas.width * (progress / duration), canvas.height);
+  
+  ctx.fillStyle = gradient;
+  ctx.fillRect(0, 0, canvas.width * percent, canvas.height);
+  
+  // 光沢効果（上半分）
+  const gloss = ctx.createLinearGradient(0, 0, 0, canvas.height / 2);
+  gloss.addColorStop(0, "rgba(255, 255, 255, 0.4)");
+  gloss.addColorStop(1, "rgba(255, 255, 255, 0)");
+  ctx.fillStyle = gloss;
+  ctx.fillRect(0, 0, canvas.width * percent, canvas.height / 2);
+  
+  // 下半分の影
+  const shadow = ctx.createLinearGradient(0, canvas.height / 2, 0, canvas.height);
+  shadow.addColorStop(0, "rgba(0, 0, 0, 0)");
+  shadow.addColorStop(1, "rgba(0, 0, 0, 0.2)");
+  ctx.fillStyle = shadow;
+  ctx.fillRect(0, canvas.height / 2, canvas.width * percent, canvas.height / 2);
+  
+  // テキスト表示（残り秒数）
+  const remainingSeconds = Math.ceil(duration - progress);
+  if (remainingSeconds > 0) {
+    ctx.fillStyle = "white";
+    ctx.font = "bold 12px 'RocknRoll One'";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.shadowColor = "rgba(0, 0, 0, 0.8)";
+    ctx.shadowBlur = 4;
+    ctx.fillText(`${remainingSeconds}秒`, canvas.width / 2, canvas.height / 2);
+    ctx.shadowBlur = 0;
+  }
 }
 
 function resetProgress() {
@@ -190,6 +263,67 @@ setInterval(() => {
 
 // シャッフルボタン設定
 const shuffleButton = document.getElementById("shuffle-button");
-shuffleButton.addEventListener("click", () => {
+shuffleButton.addEventListener("click", (event) => {
+  // パーティクル生成
+  createParticles(event.clientX, event.clientY);
+  
+  // スコア加算
+  updateScore(50);
+  
   playRandomVideo();
 });
+
+// ゲーム機能: パーティクルエフェクト
+function createParticles(x, y) {
+  const particlesContainer = document.getElementById("particles");
+  const colors = ["#EC1D2F", "#FFD700", "#FF69B4", "#00CED1", "#FF6347", "#9370DB"];
+  
+  for (let i = 0; i < 15; i++) {
+    const particle = document.createElement("div");
+    particle.className = "particle";
+    const color = colors[Math.floor(Math.random() * colors.length)];
+    particle.style.backgroundColor = color;
+    particle.style.left = x + "px";
+    particle.style.top = y + "px";
+    
+    // ランダムな方向に飛ばす
+    const angle = (Math.random() * 360) * Math.PI / 180;
+    const distance = Math.random() * 100 + 50;
+    const dx = Math.cos(angle) * distance;
+    const dy = Math.sin(angle) * distance;
+    
+    particle.style.setProperty("--dx", dx + "px");
+    particle.style.setProperty("--dy", dy + "px");
+    
+    particlesContainer.appendChild(particle);
+    
+    // アニメーション終了後に削除
+    setTimeout(() => {
+      particle.remove();
+    }, 1000);
+  }
+}
+
+// スコア更新
+function updateScore(points) {
+  score += points;
+  document.getElementById("score").textContent = score;
+  
+  // スコア表示をアニメーション
+  const scoreDisplay = document.getElementById("score-display");
+  scoreDisplay.style.animation = "none";
+  setTimeout(() => {
+    scoreDisplay.style.animation = "scoreFloat 0.5s ease";
+  }, 10);
+}
+
+// 動画ボタンにクリックイベントを追加（パーティクルとスコア）
+function addGameEffectsToButton(button) {
+  button.addEventListener("click", (event) => {
+    // パーティクル生成
+    createParticles(event.clientX, event.clientY);
+    
+    // スコア加算
+    updateScore(100);
+  });
+}

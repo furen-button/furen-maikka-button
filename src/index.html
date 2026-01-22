@@ -34,60 +34,236 @@
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Mochiy+Pop+One&family=RocknRoll+One&display=swap" rel="stylesheet">
         <style>
-            .title {
-                text-align: center;
-                font-family: "Mochiy Pop One", serif;
-                font-size: 3em;
+            /* 背景アニメーション */
+            body {
+                margin: 0;
+                padding: 0;
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                background-attachment: fixed;
+                animation: gradientShift 10s ease infinite;
             }
 
-            .logo {
-                color: #EC1D2F;
-                text-shadow: 2px 2px 0 darkred;
-                letter-spacing: 0.5rem;
-                cursor: pointer;
-                text-decoration: none;
+            @keyframes gradientShift {
+                0%, 100% { background-position: 0% 50%; }
+                50% { background-position: 100% 50%; }
             }
 
-            .shuffle-button-container {
-                display: inline-block;
-                width: 64px;
-                height: 64px;
-                margin-left: 8px;
-                vertical-align: middle;
-            }
-
-            .shuffle-button-image {
+            /* パーティクルコンテナ */
+            #particles {
+                position: fixed;
+                top: 0;
+                left: 0;
                 width: 100%;
                 height: 100%;
-                transition: opacity 0.3s ease;
+                pointer-events: none;
+                z-index: 9999;
             }
 
-            .shuffle-button-container:hover .shuffle-button-image {
-                opacity: 0;
+            .particle {
+                position: absolute;
+                width: 10px;
+                height: 10px;
+                border-radius: 50%;
+                pointer-events: none;
+                animation: particleFloat 1s ease-out forwards;
+                box-shadow: 0 0 10px currentColor;
             }
 
-            .shuffle-button-container:hover {
-                background-image: url("img/shuffle_on_24dp_EC1D2F_FILL0_wght400_GRAD0_opsz24.png");
-                background-size: cover;
-            }
-
-            /* 画面幅が十分なら grid にする */
-            @media (min-width: 900px) {
-                .wrapper {
-                    display: grid;
-                    grid-template-columns: 640px 1fr;
+            @keyframes particleFloat {
+                0% {
+                    transform: translate(0, 0) scale(1) rotate(0deg);
+                    opacity: 1;
+                }
+                100% {
+                    transform: translate(var(--dx, 0), var(--dy, -150px)) scale(0) rotate(720deg);
+                    opacity: 0;
                 }
             }
 
-            #player {
-                max-width: 100%;
-                width: 640px;
-                height: 360px;
+            /* スコア表示 */
+            #score-display {
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: rgba(236, 29, 47, 0.9);
+                color: white;
+                padding: 20px 30px;
+                border-radius: 20px;
+                font-family: "Mochiy Pop One", serif;
+                font-size: 1.8em;
+                box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+                z-index: 1000;
+                animation: scoreFloat 0.5s ease;
             }
+
+            @keyframes scoreFloat {
+                0%, 100% { transform: translateY(0); }
+                50% { transform: translateY(-10px); }
+            }
+
+            .title {
+                text-align: center;
+                font-family: "Mochiy Pop One", serif;
+                font-size: 4em;
+                margin: 30px 0;
+                position: relative;
+            }
+
+            @keyframes titleBounce {
+                0%, 100% { transform: translateY(0) scale(1); }
+                50% { transform: translateY(-15px) scale(1.05); }
+            }
+
+            .logo {
+                color: #FFD700;
+                text-shadow: 
+                    3px 3px 0 #EC1D2F,
+                    6px 6px 0 darkred,
+                    0 0 30px rgba(255, 215, 0, 0.8),
+                    0 0 60px rgba(236, 29, 47, 0.5);
+                letter-spacing: 0.5rem;
+                cursor: pointer;
+                text-decoration: none;
+                display: inline-block;
+                transition: all 0.3s ease;
+                animation: titleBounce 2s ease-in-out infinite;
+                background: linear-gradient(45deg, #FFD700, #FFA500, #FF6347);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+                filter: drop-shadow(3px 3px 0 #EC1D2F) drop-shadow(6px 6px 0 darkred);
+                padding: 10px 20px;
+                border-radius: 20px;
+                position: relative;
+            }
+
+            .logo::before {
+                content: '';
+                position: absolute;
+                top: -10px;
+                left: -10px;
+                right: -10px;
+                bottom: -10px;
+                background: linear-gradient(45deg, #EC1D2F, #FFD700, #EC1D2F);
+                border-radius: 25px;
+                z-index: -1;
+                opacity: 0.3;
+                animation: logoBg 3s ease-in-out infinite;
+            }
+
+            @keyframes logoBg {
+                0%, 100% { transform: scale(1); opacity: 0.3; }
+                50% { transform: scale(1.1); opacity: 0.5; }
+            }
+
+            .logo:hover {
+                transform: scale(1.15) rotate(-2deg);
+                animation: none;
+            }
+
+            .shuffle-button-container {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                width: 120px;
+                height: 120px;
+                cursor: pointer;
+                transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+                border-radius: 20px;
+                background: linear-gradient(135deg, #FFD700, #FFA500, #FF6347);
+                position: relative;
+                box-shadow: 0 10px 25px rgba(255, 165, 0, 0.5),
+                           inset 0 -5px 15px rgba(0, 0, 0, 0.2);
+                animation: shuffleFloat 3s ease-in-out infinite;
+                flex-shrink: 0;
+                border: 4px solid #EC1D2F;
+                font-family: "Mochiy Pop One", serif;
+                text-decoration: none;
+                color: white;
+                text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            }
+
+            .shuffle-button-container::before {
+                content: '🎲';
+                position: absolute;
+                top: 15px;
+                font-size: 2.5em;
+                animation: diceRoll 2s ease-in-out infinite;
+            }
+
+            @keyframes diceRoll {
+                0%, 100% { transform: rotate(0deg); }
+                25% { transform: rotate(-15deg); }
+                75% { transform: rotate(15deg); }
+            }
+
+            .shuffle-button-container::after {
+                content: 'ランダム';
+                position: absolute;
+                bottom: 15px;
+                font-size: 0.8em;
+                font-weight: bold;
+            }
+
+            @keyframes shuffleFloat {
+                0%, 100% { transform: translateY(0) rotate(0deg); }
+                50% { transform: translateY(-10px) rotate(5deg); }
+            }
+
+            .shuffle-button-image {
+                display: none;
+            }
+
+            .shuffle-button-container:hover {
+                transform: scale(1.15) translateY(-5px);
+                box-shadow: 0 15px 40px rgba(255, 165, 0, 0.8), 
+                           0 0 30px rgba(255, 215, 0, 0.6),
+                           inset 0 -5px 20px rgba(0, 0, 0, 0.3);
+                animation: none;
+                background: linear-gradient(135deg, #FFA500, #FF6347, #EC1D2F);
+            }
+
+            .shuffle-button-container:hover::before {
+                animation: diceRoll 0.5s ease-in-out infinite;
+            }
+
+            .shuffle-button-container:active {
+                transform: scale(1.05) translateY(-2px);
+            }
+
+            /* 画面幅が十分なら grid にする */
+            @media (min-width: 1000px) {
+                .wrapper {
+                    display: grid;
+                    grid-template-columns: 840px 1fr;
+                }
+            }
+
             #video-list {
-                margin-left: 4px;
                 height: 800px;
                 overflow: auto;
+            }
+
+            /* スクロールバーのカスタマイズ */
+            #video-list::-webkit-scrollbar {
+                width: 12px;
+            }
+
+            #video-list::-webkit-scrollbar-track {
+                background: rgba(236, 29, 47, 0.1);
+                border-radius: 10px;
+            }
+
+            #video-list::-webkit-scrollbar-thumb {
+                background: linear-gradient(135deg, #EC1D2F, #FF6347);
+                border-radius: 10px;
+                box-shadow: 0 0 10px rgba(236, 29, 47, 0.5);
+            }
+
+            #video-list::-webkit-scrollbar-thumb:hover {
+                background: linear-gradient(135deg, #FFD700, #FFA500);
+                box-shadow: 0 0 15px rgba(255, 215, 0, 0.8);
             }
 
             .video-button {
@@ -95,40 +271,467 @@
                 font-weight: 400;
                 font-style: normal;
                 font-size: 1em;
-                border: none;
-                border-left: solid 8px #EC1D2F;/*左側の線*/
-                background-color: whitesmoke;
-                margin-top: 3px;/*上のバーとの余白*/
-                margin-bottom: 3px;/*下のバーとの余白*/
-                border-radius: 0 15px 15px 0;/*右側の角だけ丸く*/
-                width: 100%;
+                border: 3px solid transparent;
+                background: linear-gradient(white, white) padding-box,
+                           linear-gradient(135deg, #EC1D2F, #FF6347, #FFD700) border-box;
+                margin: 10px;
+                border-radius: 15px;
+                padding: 15px 20px;
                 text-align: left;
+                transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+                cursor: pointer;
+                position: relative;
+                overflow: hidden;
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+                display: flex;
+                align-items: center;
+                min-height: 60px;
+            }
+
+            .video-button::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(135deg, rgba(236, 29, 47, 0.1), rgba(255, 215, 0, 0.1));
+                opacity: 0;
+                transition: opacity 0.3s ease;
+                z-index: 0;
+            }
+
+            .video-button::after {
+                content: '▶';
+                position: absolute;
+                left: 10px;
+                font-size: 1.5em;
+                color: #EC1D2F;
+                opacity: 0;
+                transform: translateX(-20px);
+                transition: all 0.3s ease;
             }
 
             .video-button:hover {
-                background-color: #f0f0f0;
+                transform: translateY(-5px) scale(1.03);
+                box-shadow: 0 15px 30px rgba(236, 29, 47, 0.4), 0 0 20px rgba(255, 215, 0, 0.3);
+                border-color: #EC1D2F;
+            }
+
+            .video-button:hover::before {
+                opacity: 1;
+            }
+
+            .video-button:hover::after {
+                opacity: 1;
+                transform: translateX(0);
+            }
+
+            .video-button:active {
+                transform: translateY(-2px) scale(1.01);
             }
 
             .year {
-                font-family: "RocknRoll One", serif;
+                font-family: "Mochiy Pop One", serif;
                 font-weight: 400;
                 font-style: normal;
-                font-size: 3em;
-                color: #333333;
+                font-size: 2.5em;
+                color: #FFD700;
                 text-align: center;
+                width: auto;
+                max-width: 400px;
+                margin: 30px auto;
+                text-shadow: 
+                    2px 2px 0 #EC1D2F,
+                    4px 4px 0 darkred,
+                    0 0 20px rgba(255, 215, 0, 0.8);
+                padding: 15px 50px;
+                border-radius: 50px;
+                background: linear-gradient(135deg, #EC1D2F, #FF6347);
+                box-shadow: 0 10px 30px rgba(236, 29, 47, 0.5),
+                           inset 0 -5px 15px rgba(0, 0, 0, 0.3);
+                position: relative;
+                animation: yearPulse 2s ease-in-out infinite;
+                display: inline-block;
+            }
+
+            .year::before {
+                content: '🎮';
+                position: absolute;
+                left: 20px;
+                font-size: 0.8em;
+            }
+
+            .year::after {
+                content: '🎮';
+                position: absolute;
+                right: 20px;
+                font-size: 0.8em;
+            }
+
+            @keyframes yearPulse {
+                0%, 100% { transform: scale(1); box-shadow: 0 10px 30px rgba(236, 29, 47, 0.5); }
+                50% { transform: scale(1.05); box-shadow: 0 15px 40px rgba(236, 29, 47, 0.7), 0 0 30px rgba(255, 215, 0, 0.5); }
+            }
+
+            /* プレイヤー周りの装飾 */
+            .player-controls-wrapper {
+                display: flex;
+                align-items: flex-start;
+                gap: 20px;
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+
+            .player-progress-container {
+                flex: 1 1 auto;
+                max-width: 800px;
+                min-width: 300px;
+            }
+
+            #player {
                 width: 100%;
+                aspect-ratio: 16 / 9;
+                border-radius: 15px;
+                box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+            }
+
+            #player-info {
+                background: linear-gradient(135deg, rgba(236, 29, 47, 0.05), rgba(255, 215, 0, 0.05));
+                padding: 20px 25px;
+                border-radius: 15px;
+                margin: 15px 0;
+                border: 3px solid rgba(236, 29, 47, 0.4);
+                font-family: "RocknRoll One", serif;
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+                min-height: 80px;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                gap: 10px;
+            }
+
+            #player-info a {
+                color: #EC1D2F;
+                text-decoration: none;
+                font-weight: bold;
+                transition: all 0.3s ease;
+                text-shadow: 0 0 5px rgba(236, 29, 47, 0.3);
+                font-size: 1.1em;
+                line-height: 1.6;
+                word-break: break-word;
+            }
+
+            #player-info a:hover {
+                color: #FFD700;
+                text-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
+            }
+
+            #player-info > div {
+                color: #666;
+                font-size: 0.95em;
+                padding: 8px 12px;
+                background: rgba(236, 29, 47, 0.05);
+                border-radius: 8px;
+                border-left: 3px solid #FFD700;
+                margin-top: 5px;
+            }
+
+            /* コンテンツエリアの装飾 */
+            .wrapper > div:first-child {
+                background: rgba(255, 255, 255, 0.95);
+                padding: 20px;
+                border-radius: 20px;
+                box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+                margin: 20px;
+            }
+
+            /* 見出しスタイル */
+            h2 {
+                font-family: "Mochiy Pop One", serif;
+                color: #EC1D2F;
+                text-shadow: 2px 2px 0 darkred, 0 0 15px rgba(236, 29, 47, 0.5);
+                font-size: 1.8em;
+                margin: 30px 0 15px 0;
+                padding: 15px 20px;
+                background: linear-gradient(135deg, rgba(236, 29, 47, 0.1), rgba(255, 215, 0, 0.1));
+                border-left: 8px solid #EC1D2F;
+                border-radius: 0 15px 15px 0;
+                box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.1);
+                position: relative;
+            }
+
+            h2::before {
+                content: '★';
+                margin-right: 10px;
+                color: #FFD700;
+                text-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
+                animation: starTwinkle 2s ease-in-out infinite;
+            }
+
+            @keyframes starTwinkle {
+                0%, 100% { opacity: 1; transform: scale(1); }
+                50% { opacity: 0.6; transform: scale(1.2); }
+            }
+
+            h3 {
+                font-family: "RocknRoll One", serif;
+                color: #FF6347;
+                font-size: 1.4em;
+                margin: 20px 0 10px 0;
+                padding: 10px 15px;
+                background: linear-gradient(90deg, rgba(255, 99, 71, 0.2), transparent);
+                border-left: 5px solid #FF6347;
+                border-radius: 5px;
+            }
+
+            /* オプションスタイル */
+            #options {
+                background: linear-gradient(135deg, rgba(100, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+                padding: 20px;
+                border-radius: 15px;
+                border: 3px solid transparent;
+                background-clip: padding-box;
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+                position: relative;
+            }
+
+            #options::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                border-radius: 15px;
+                padding: 3px;
+                background: linear-gradient(135deg, #667eea, #764ba2);
+                -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+                -webkit-mask-composite: xor;
+                mask-composite: exclude;
+                z-index: -1;
+            }
+
+            #options label {
+                font-family: "RocknRoll One", serif;
+                font-size: 1.1em;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                padding: 10px;
+                border-radius: 10px;
+                transition: all 0.3s ease;
+            }
+
+            #options label:hover {
+                background: rgba(236, 29, 47, 0.1);
+                transform: translateX(5px);
+            }
+
+            #options input[type="checkbox"] {
+                width: 25px;
+                height: 25px;
+                margin-right: 15px;
+                cursor: pointer;
+                appearance: none;
+                border: 3px solid #EC1D2F;
+                border-radius: 5px;
+                position: relative;
+                transition: all 0.3s ease;
+                background: white;
+            }
+
+            #options input[type="checkbox"]:checked {
+                background: linear-gradient(135deg, #EC1D2F, #FF6347);
+                box-shadow: 0 0 15px rgba(236, 29, 47, 0.6);
+            }
+
+            #options input[type="checkbox"]:checked::after {
+                content: '✓';
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                color: white;
+                font-size: 18px;
+                font-weight: bold;
+            }
+
+            #options input[type="checkbox"]:hover {
+                transform: scale(1.1);
+                box-shadow: 0 0 10px rgba(236, 29, 47, 0.4);
+            }
+
+            /* 説明エリア */
+            #site-description {
+                background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(240, 248, 255, 0.9));
+                padding: 20px;
+                border-radius: 15px;
+                box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.1),
+                           0 5px 15px rgba(0, 0, 0, 0.1);
+                border: 2px solid rgba(236, 29, 47, 0.2);
+            }
+
+            ul {
+                list-style: none;
+                padding-left: 0;
+            }
+
+            ul li {
+                font-family: "RocknRoll One", serif;
+                padding: 12px 15px;
+                margin: 10px 0;
+                background: white;
+                border-left: 5px solid #FFD700;
+                border-radius: 0 10px 10px 0;
+                box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.1);
+                transition: all 0.3s ease;
+                position: relative;
+            }
+
+            ul li::before {
+                content: '▸';
+                color: #EC1D2F;
+                font-size: 1.2em;
+                margin-right: 10px;
+                display: inline-block;
+                transition: transform 0.3s ease;
+            }
+
+            ul li:hover {
+                border-left-width: 8px;
+                box-shadow: 5px 5px 15px rgba(236, 29, 47, 0.3);
+            }
+
+            ul li:hover::before {
+                color: #FFD700;
+            }
+
+            ul li a {
+                color: #EC1D2F;
+                text-decoration: none;
+                font-weight: bold;
+                transition: all 0.3s ease;
+            }
+
+            ul li a:hover {
+                color: #FFD700;
+                text-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
+            }
+
+            #video-list {
+                background: rgba(255, 255, 255, 0.95);
+                padding: 15px;
+                border-radius: 20px;
+                box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+                margin: 20px;
+                height: 800px;
+                overflow: auto;
+            }
+
+            /* スクロールバーのカスタマイズ */
+            #video-list::-webkit-scrollbar {
+                width: 12px;
+            }
+
+            #video-list::-webkit-scrollbar-track {
+                background: rgba(236, 29, 47, 0.1);
+                border-radius: 10px;
+            }
+
+            #video-list::-webkit-scrollbar-thumb {
+                background: linear-gradient(135deg, #EC1D2F, #FF6347);
+                border-radius: 10px;
+                box-shadow: 0 0 10px rgba(236, 29, 47, 0.5);
+            }
+
+            #video-list::-webkit-scrollbar-thumb:hover {
+                background: linear-gradient(135deg, #FFD700, #FFA500);
+                box-shadow: 0 0 15px rgba(255, 215, 0, 0.8);
+            }
+
+            /* プログレスバー（キャンバス） */
+            #myCanvas {
+                width: 100%;
+                height: 25px;
+                border-radius: 12px;
+                box-shadow: inset 0 3px 8px rgba(0, 0, 0, 0.4),
+                           0 4px 15px rgba(0, 0, 0, 0.3);
+                background: linear-gradient(135deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.1));
+                margin-top: 10px;
+                border: 2px solid rgba(236, 29, 47, 0.3);
+                display: block;
+            }
+
+            /* グリッドレイアウト */
+            .video-list-container {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+                gap: 0;
+                padding: 10px;
+            }
+
+            @media (max-width: 768px) {
+                .video-list-container {
+                    grid-template-columns: 1fr;
+                }
+                
+                .logo {
+                    font-size: 0.8em;
+                }
+                
+                .title {
+                    font-size: 2.5em;
+                }
+                
+                .shuffle-button-container {
+                    width: 50px;
+                    height: 50px;
+                }                
+                h2 {
+                    font-size: 1.4em;
+                }
+                
+                h3 {
+                    font-size: 1.2em;
+                }
+                
+                ul li {
+                    font-size: 0.9em;
+                }                
+                h2 {
+                    font-size: 1.4em;
+                }
+                
+                h3 {
+                    font-size: 1.2em;
+                }
+                
+                ul li {
+                    font-size: 0.9em;
+                }
             }
         </style>
     </head>
   <body>
+    <div id="particles"></div>
+    <div id="score-display">
+        <div>スコア: <span id="score">0</span></div>
+    </div>
     <h1 class="title">
         <a href="." class="logo">まいっかボタン</a>
-        <a id="shuffle-button" class="shuffle-button-container"><img src="img/shuffle_24dp_EC1D2F_FILL0_wght400_GRAD0_opsz24.png" alt="シャッフル再生" class="shuffle-button-image"></a>
     </h1>
     <div class="wrapper">
         <div>
-            <div id="player"></div>
-            <canvas id="myCanvas" width="640" height="10"></canvas>
+            <div class="player-controls-wrapper">
+                <div class="player-progress-container">
+                    <div id="player"></div>
+                    <canvas id="myCanvas" width="800" height="25"></canvas>
+                </div>
+                <a id="shuffle-button" class="shuffle-button-container">
+                    <img src="img/shuffle_24dp_EC1D2F_FILL0_wght400_GRAD0_opsz24.png" alt="シャッフル再生" class="shuffle-button-image">
+                </a>
+            </div>
             <div>
                 <h2>再生中の動画</h2>
                 <div id="player-info"></div>
