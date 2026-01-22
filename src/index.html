@@ -445,6 +445,48 @@
                 transform: translateY(-2px) scale(1.01);
             }
 
+            .video-button.video-error {
+                background: linear-gradient(135deg, #555, #777);
+                border-color: #999;
+                opacity: 0.6;
+                cursor: not-allowed;
+                position: relative;
+                padding-right: 140px;
+            }
+
+            .video-button.video-error::before {
+                content: '⚠️';
+                position: absolute;
+                left: 10px;
+                top: 50%;
+                transform: translateY(-50%);
+                font-size: 1.2em;
+                z-index: 2;
+            }
+
+            .error-video-link {
+                position: absolute;
+                right: 10px;
+                top: 50%;
+                transform: translateY(-50%);
+                background: linear-gradient(135deg, #EC1D2F, #FF6347);
+                color: white;
+                padding: 8px 16px;
+                border-radius: 8px;
+                text-decoration: none;
+                font-size: 0.9em;
+                font-weight: bold;
+                z-index: 3;
+                transition: all 0.3s ease;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            }
+
+            .error-video-link:hover {
+                background: linear-gradient(135deg, #FF6347, #EC1D2F);
+                transform: translateY(-50%) scale(1.05);
+                box-shadow: 0 6px 12px rgba(236, 29, 47, 0.5);
+            }
+
             .year {
                 font-family: "Mochiy Pop One", serif;
                 font-weight: 400;

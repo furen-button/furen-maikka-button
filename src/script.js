@@ -37,6 +37,32 @@ function onYouTubeIframeAPIReady() {
 
 function onPlayerError(event) {
   console.log("onPlayerError", event);
+  
+  // 現在再生しようとしていた動画をエラーリストに追加
+  if (currentPlayingVideo) {
+    const videoId = currentPlayingVideo.videoId;
+    failedVideos.add(videoId);
+    
+    // 該当するボタンを全て見つけて無効化し、リンクを追加
+    const buttons = document.querySelectorAll(`button[data-video-id="${videoId}"]`);
+    buttons.forEach(button => {
+      if (!button.classList.contains('video-error')) {
+        button.classList.add('video-error');
+        button.disabled = true;
+        button.style.cursor = 'default';
+        
+        // ボタンの後にYouTubeリンクを追加
+        const link = document.createElement('a');
+        link.href = currentPlayingVideo.startUrl;
+        link.target = '_blank';
+        link.className = 'error-video-link';
+        link.textContent = 'YouTubeで開く';
+        link.onclick = (e) => e.stopPropagation();
+        button.appendChild(link);
+      }
+    });
+  }
+  
   switch (event.data) {
   case 2:
     console.log("Invalid parameter");
@@ -68,6 +94,8 @@ async function onPlayerReady(event) {
 }
 
 let videoData = [];
+let currentPlayingVideo = null;
+const failedVideos = new Set(); // 再生できなかった動画のvideoIdを記録
 
 async function fetchVideoData() {
   const response = await fetch("./data/maikka.json");
@@ -110,6 +138,7 @@ function showForm(playerInfo, titleText) {
 let showFormSchedule = null;
 
 function playVideo(video) {
+  currentPlayingVideo = video; // 現在再生しようとしている動画を記録
   const videoId = video.videoId;
   const startTime = video.startTime;
   const titleText = `${video.title} (${convertSecondsToHms(video.startTime)})`;
@@ -226,6 +255,7 @@ function createVideoDataButtons() {
     
     const button = document.createElement("button");
     button.classList.add("video-button");
+    button.setAttribute("data-video-id", video.videoId);
     
     // ボタンテキストを整形
     const buttonText = document.createElement("span");
@@ -237,6 +267,10 @@ function createVideoDataButtons() {
     
     no++;
     button.addEventListener("click", () => {
+      // エラー動画の場合は何もしない（リンクで開く）
+      if (failedVideos.has(video.videoId)) {
+        return;
+      }
       playVideo(video);
     });
     // ゲームエフェクトを追加
