@@ -180,24 +180,48 @@ function getYear(publishedAt) {
 }
 
 function createVideoDataButtons() {
-  // 動画リストを作成
+  // 動画リストを作成（時間降順にソート）
+  const sortedData = [...videoData].sort((a, b) => {
+    return new Date(b.publishedAt) - new Date(a.publishedAt);
+  });
+  
+  // 各年の動画数をカウント
+  const yearCounts = {};
+  sortedData.forEach(video => {
+    const videoYear = getYear(video.publishedAt);
+    yearCounts[videoYear] = (yearCounts[videoYear] || 0) + 1;
+  });
+  
   const videoList = document.getElementById("video-list");
   let no = 1;
   let year = 0;
   let currentYearContainer = null;
+  let currentYearHeader = null;
   
-  videoData.forEach(video => {
+  sortedData.forEach(video => {
     if (year !== getYear(video.publishedAt)) {
       year = getYear(video.publishedAt);
+      
+      // 年ヘッダーを作成
       const divYear = document.createElement("div");
       divYear.classList.add("year");
-      divYear.textContent = year;
+      divYear.textContent = `${year} (${yearCounts[year]}件)`;
+      currentYearHeader = divYear;
       videoList.appendChild(divYear);
       
       // 年ごとにグリッドコンテナを作成
-      currentYearContainer = document.createElement("div");
-      currentYearContainer.classList.add("video-list-container");
-      videoList.appendChild(currentYearContainer);
+      const yearContainer = document.createElement("div");
+      yearContainer.classList.add("video-list-container");
+      currentYearContainer = yearContainer;
+      videoList.appendChild(yearContainer);
+      
+      // 折り畳み機能を追加（クロージャで正しくキャプチャ）
+      divYear.addEventListener("click", (function(header, container) {
+        return function() {
+          header.classList.toggle("collapsed");
+          container.classList.toggle("collapsed");
+        };
+      })(divYear, yearContainer));
     }
     
     const button = document.createElement("button");

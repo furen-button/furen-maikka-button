@@ -467,6 +467,25 @@
                 position: relative;
                 animation: yearPulse 2s ease-in-out infinite;
                 display: inline-block;
+                cursor: pointer;
+                user-select: none;
+                transition: all 0.3s ease;
+            }
+
+            .year:hover {
+                transform: scale(1.05);
+                box-shadow: 0 15px 40px rgba(236, 29, 47, 0.7),
+                           inset 0 -5px 15px rgba(0, 0, 0, 0.3);
+            }
+
+            .year.collapsed::before {
+                content: '▶';
+                left: 15px;
+            }
+
+            .year:not(.collapsed)::before {
+                content: '▼';
+                left: 15px;
             }
 
             .year::before {
@@ -474,6 +493,18 @@
                 position: absolute;
                 left: 20px;
                 font-size: 0.8em;
+            }
+
+            .video-list-container {
+                max-height: 10000px;
+                overflow: hidden;
+                transition: max-height 0.5s ease, opacity 0.3s ease;
+                opacity: 1;
+            }
+
+            .video-list-container.collapsed {
+                max-height: 0;
+                opacity: 0;
             }
 
             .year::after {
