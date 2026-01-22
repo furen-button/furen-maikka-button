@@ -271,6 +271,81 @@
                 transform: scale(1.05) translateY(-2px);
             }
 
+            /* 停止ボタン */
+            .stop-button-container {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                width: 120px;
+                height: 120px;
+                cursor: pointer;
+                transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+                border-radius: 20px;
+                background: linear-gradient(135deg, #667eea, #764ba2, #4a148c);
+                position: relative;
+                box-shadow: 0 10px 25px rgba(118, 75, 162, 0.5),
+                           inset 0 -5px 15px rgba(0, 0, 0, 0.2);
+                animation: stopFloat 3s ease-in-out infinite;
+                flex-shrink: 0;
+                border: 4px solid #EC1D2F;
+                font-family: "Mochiy Pop One", serif;
+                text-decoration: none;
+                color: white;
+                text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            }
+
+            .stop-button-container::before {
+                content: '⏸️';
+                position: absolute;
+                top: 15px;
+                font-size: 2.5em;
+                animation: stopPulse 2s ease-in-out infinite;
+            }
+
+            .stop-button-container[data-state="paused"]::before {
+                content: '▶️';
+            }
+
+            @keyframes stopPulse {
+                0%, 100% { transform: scale(1); }
+                50% { transform: scale(1.1); }
+            }
+
+            .stop-button-container::after {
+                content: '停止';
+                position: absolute;
+                bottom: 15px;
+                font-size: 0.8em;
+                font-weight: bold;
+            }
+
+            .stop-button-container[data-state="paused"]::after {
+                content: '再生';
+            }
+
+            @keyframes stopFloat {
+                0%, 100% { transform: translateY(0); }
+                50% { transform: translateY(-10px); }
+            }
+
+            .stop-button-container:hover {
+                transform: scale(1.15) translateY(-5px);
+                box-shadow: 0 15px 40px rgba(118, 75, 162, 0.8), 
+                           0 0 30px rgba(102, 126, 234, 0.6),
+                           inset 0 -5px 20px rgba(0, 0, 0, 0.3);
+                animation: none;
+                background: linear-gradient(135deg, #4a148c, #764ba2, #667eea);
+            }
+
+            .stop-button-container:hover::before {
+                animation: stopPulse 0.5s ease-in-out infinite;
+            }
+
+            .stop-button-container:active {
+                transform: scale(1.05) translateY(-2px);
+            }
+
             /* 画面幅が十分なら grid にする */
             @media (min-width: 1000px) {
                 .wrapper {
@@ -803,6 +878,7 @@
                 <a id="shuffle-button" class="shuffle-button-container">
                     <img src="img/shuffle_24dp_EC1D2F_FILL0_wght400_GRAD0_opsz24.png" alt="シャッフル再生" class="shuffle-button-image">
                 </a>
+                <button id="stop-button" class="stop-button-container" data-state="playing"></button>
                 <div id="score-display">
                     <div>スコア: <span id="score">0</span></div>
                 </div>

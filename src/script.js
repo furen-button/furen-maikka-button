@@ -52,8 +52,10 @@ function onPlayerError(event) {
     console.log("Video not embeddable");
     break;
   }
+  const stopButton = document.getElementById("stop-button");
+  const isPaused = stopButton && stopButton.getAttribute("data-state") === "paused";
   const isAutoplay = autoplayCheckbox.checked;
-  if (isAutoplay) {
+  if (isAutoplay && !isPaused) {
     playRandomVideo();
   }
 }
@@ -154,8 +156,10 @@ function playVideo(video) {
     clearTimeout(showFormSchedule);
   }
   showFormSchedule = setTimeout(() => {
+    const stopButton = document.getElementById("stop-button");
+    const isPaused = stopButton && stopButton.getAttribute("data-state") === "paused";
     const isAutoplay = autoplayCheckbox.checked;
-    if (isAutoplay) {
+    if (isAutoplay && !isPaused) {
       playRandomVideo();
     } else {
       const playerInfo = document.getElementById("player-info");
@@ -285,7 +289,7 @@ function resetProgress() {
   progress = 0;
 }
 
-setInterval(() => {  
+let progressBarInterval = setInterval(() => {  
   drawProgressBar();
 }, interval);
 
@@ -299,6 +303,64 @@ shuffleButton.addEventListener("click", (event) => {
   updateScore(50);
   
   playRandomVideo();
+});
+
+// 停止/再生ボタン設定
+const stopButton = document.getElementById("stop-button");
+stopButton.addEventListener("click", (event) => {
+  // パーティクル生成
+  createParticles(event.clientX, event.clientY);
+  
+  const currentState = stopButton.getAttribute("data-state");
+  
+  if (currentState === "playing") {
+    // 停止処理
+    if (player && typeof player.pauseVideo === 'function') {
+      player.pauseVideo();
+    }
+    
+    // プログレスバー更新を停止
+    if (progressBarInterval) {
+      clearInterval(progressBarInterval);
+      progressBarInterval = null;
+    }
+    
+    // 自動再生のタイムアウトをクリア
+    if (showFormSchedule !== null) {
+      clearTimeout(showFormSchedule);
+      showFormSchedule = null;
+    }
+    
+    stopButton.setAttribute("data-state", "paused");
+  } else {
+    // 再生処理
+    if (player && typeof player.playVideo === 'function') {
+      player.playVideo();
+    }
+    
+    // プログレスバー更新を再開
+    if (!progressBarInterval) {
+      progressBarInterval = setInterval(() => {  
+        drawProgressBar();
+      }, interval);
+    }
+    
+    // 自動再生のタイムアウトを再設定（残り時間を計算）
+    const elapsedTime = progress * 1000; // 経過時間（ミリ秒）
+    const remainingTime = Math.max(0, FORM_TIME - elapsedTime);
+    if (remainingTime > 0) {
+      showFormSchedule = setTimeout(() => {
+        const stopBtn = document.getElementById("stop-button");
+        const isPaused = stopBtn && stopBtn.getAttribute("data-state") === "paused";
+        const isAutoplay = autoplayCheckbox.checked;
+        if (isAutoplay && !isPaused) {
+          playRandomVideo();
+        }
+      }, remainingTime);
+    }
+    
+    stopButton.setAttribute("data-state", "playing");
+  }
 });
 
 // ゲーム機能: パーティクルエフェクト
