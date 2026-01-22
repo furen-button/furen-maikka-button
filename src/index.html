@@ -423,6 +423,38 @@
                 flex: 1 1 auto;
                 max-width: 800px;
                 min-width: 300px;
+                transition: all 0.3s ease;
+            }
+
+            /* 動画切り替えアニメーション */
+            @keyframes videoFadeIn {
+                0% {
+                    opacity: 0;
+                    transform: scale(0.95);
+                }
+                100% {
+                    opacity: 1;
+                    transform: scale(1);
+                }
+            }
+
+            @keyframes videoSlideIn {
+                0% {
+                    transform: translateX(-20px);
+                    opacity: 0;
+                }
+                100% {
+                    transform: translateX(0);
+                    opacity: 1;
+                }
+            }
+
+            .video-switching {
+                animation: videoFadeIn 0.5s ease, videoSlideIn 0.5s ease;
+            }
+
+            .player-info-switching {
+                animation: videoSlideIn 0.4s ease;
             }
 
             #player {

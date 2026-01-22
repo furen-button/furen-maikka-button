@@ -9,6 +9,18 @@ var player;
 // ゲーム要素: スコア
 let score = 0;
 
+// 効果音再生
+const switchSound = new Audio('sounds/決定ボタンを押す3.mp3');
+switchSound.volume = 0.5;
+
+function playVideoSwitchSound() {
+  // 音声ファイルを最初から再生
+  switchSound.currentTime = 0;
+  switchSound.play().catch(err => {
+    console.log('音声再生エラー:', err);
+  });
+}
+
 // eslint-disable-next-line no-unused-vars
 function onYouTubeIframeAPIReady() {
   // eslint-disable-next-line no-undef
@@ -99,9 +111,25 @@ function playVideo(video) {
   const videoId = video.videoId;
   const startTime = video.startTime;
   const titleText = `${video.title} (${convertSecondsToHms(video.startTime)})`;
+  
+  // 効果音を再生
+  playVideoSwitchSound();
+  
+  // プレイヤーにアニメーションクラスを追加
+  const playerContainer = document.querySelector('.player-progress-container');
+  playerContainer.classList.remove('video-switching');
+  void playerContainer.offsetWidth; // リフロー強制
+  playerContainer.classList.add('video-switching');
+  
   player.loadVideoById(videoId, startTime);
   {
     const playerInfo = document.getElementById("player-info");
+    
+    // プレイヤー情報にアニメーションクラスを追加
+    playerInfo.classList.remove('player-info-switching');
+    void playerInfo.offsetWidth; // リフロー強制
+    playerInfo.classList.add('player-info-switching');
+    
     playerInfo.innerHTML = "";
     
     // タイトルリンク
