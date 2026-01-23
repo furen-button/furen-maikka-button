@@ -211,7 +211,9 @@ function getYear(publishedAt) {
 function createVideoDataButtons() {
   // 動画リストを作成（時間降順にソート）
   const sortedData = [...videoData].sort((a, b) => {
-    return new Date(b.publishedAt) - new Date(a.publishedAt);
+    const dateA = new Date(a.publishedAt.split("T")[0]);
+    const dateB = new Date(b.publishedAt.split("T")[0]);
+    return dateB - dateA;
   });
   
   // 各年の動画数をカウント
