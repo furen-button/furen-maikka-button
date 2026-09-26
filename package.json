@@ -6,7 +6,8 @@
     "start": "http-server src",
     "lint": "eslint src/**/*.js scripts/**/*.mjs",
     "lint:fix": "eslint src/**/*.js scripts/**/*.mjs --fix",
-    "build:data": "node scripts/build-maikka.mjs"
+    "build:data": "node scripts/build-maikka.mjs",
+    "build:algorithm": "npx -y @mermaid-js/mermaid-cli@11 -i docs/maikka-algorithm.mmd -o src/img/maikka-algorithm.svg -t neutral -b white"
   },
   "devDependencies": {
     "@duckdb/node-api": "^1.5.5-r.5",

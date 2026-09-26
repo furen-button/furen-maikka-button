@@ -46,6 +46,12 @@ npm start
 
 集計のアルゴリズムは [maikka-algorithm.svg](src/img/maikka-algorithm.svg) のとおりです。キーワードや秒数などのパラメータは `scripts/build-maikka.mjs` の先頭で定義しています。
 
+パラメータを変えたら、図のソース `docs/maikka-algorithm.mmd` も合わせて直し、SVG を再生成してください。
+
+```sh
+npm run build:algorithm
+```
+
 ## ESLint
 
 以下のコマンドでESLintを実行してコードのリントを行います。
