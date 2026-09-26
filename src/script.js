@@ -425,7 +425,8 @@ function renderList() {
   });
 
   videoListElement.replaceChildren(fragment);
-  videoCountElement.textContent = `${visibleVideoItems.length.toLocaleString("ja-JP")}本`;
+  const visibleClipCount = visibleVideoItems.reduce((sum, item) => sum + item.clips.length, 0);
+  videoCountElement.textContent = `${visibleVideoItems.length.toLocaleString("ja-JP")}本 / ${visibleClipCount.toLocaleString("ja-JP")}ボタン`;
   emptySearchElement.hidden = visibleVideoItems.length > 0;
   updatePlayingState();
 
