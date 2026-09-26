@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="ja">
-    <!--
+  <!--
 　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　
 　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　
 　　　　■　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　■　　　　　　　
@@ -16,981 +16,153 @@
 　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　
 　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　
     リスペクト: https://furen-uta.pages.dev/
-    -->
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>まいっかボタン</title>
-        <meta name="description" content="にじさんじ所属バーチャルライバー、フレン・E・ルスタリオさんの「まいっか」を自動収集した非公式ファンサイトです。">
-        <meta name="keywords" content="にじさんじ, フレン・E・ルスタリオ, まいっか, バーチャルYouTuber, バーチャルライバー, フレンボタン">
-        <meta property="og:type" content="website">
-        <meta property="og:title" content="まいっかボタン">
-        <meta property="og:description" content="にじさんじ所属バーチャルライバー、フレン・E・ルスタリオさんの「まいっか」を自動収集した非公式ファンサイトです。">
-        <meta property="og:url" content="https://furen-button.github.io/furen-maikka-button/">
-        <meta property="og:image" content="https://furen-button.github.io/furen-maikka-button/img/ogp.png">
-        <link rel="icon" href="img/favicon.ico">
-        <lint rel="apple-touch-icon" href="img/apple-touch-icon-180x180.png">
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Mochiy+Pop+One&family=RocknRoll+One&display=swap" rel="stylesheet">
-        <style>
-            /* 背景アニメーション */
-            body {
-                margin: 0;
-                padding: 0;
-                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-                background-attachment: fixed;
-                animation: gradientShift 10s ease infinite;
-                font-family: "RocknRoll One", serif;
-                font-size: 16px;
-                line-height: 1.6;
-            }
-
-            @keyframes gradientShift {
-                0%, 100% { background-position: 0% 50%; }
-                50% { background-position: 100% 50%; }
-            }
-
-            /* パーティクルコンテナ */
-            #particles {
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                pointer-events: none;
-                z-index: 9999;
-            }
-
-            .particle {
-                position: absolute;
-                width: 10px;
-                height: 10px;
-                border-radius: 50%;
-                pointer-events: none;
-                animation: particleFloat 1s ease-out forwards;
-                box-shadow: 0 0 10px currentColor;
-            }
-
-            @keyframes particleFloat {
-                0% {
-                    transform: translate(0, 0) scale(1) rotate(0deg);
-                    opacity: 1;
-                }
-                100% {
-                    transform: translate(var(--dx, 0), var(--dy, -150px)) scale(0) rotate(720deg);
-                    opacity: 0;
-                }
-            }
-
-            /* スコア表示 */
-            #score-display {
-                background: rgba(236, 29, 47, 0.9);
-                color: white;
-                padding: 18px 25px;
-                border-radius: 20px;
-                font-family: "Mochiy Pop One", serif;
-                font-size: 1.4em;
-                box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-                animation: scoreFloat 0.5s ease;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                min-width: 120px;
-                height: 90px;
-                flex-shrink: 0;
-                text-align: center;
-            }
-
-            @keyframes scoreFloat {
-                0%, 100% { transform: translateY(0); }
-                50% { transform: translateY(-10px); }
-            }
-
-            .title {
-                text-align: center;
-                font-family: "Mochiy Pop One", serif;
-                font-size: 2.8em;
-                margin: 30px 0;
-                position: relative;
-                padding: 40px 0;
-            }
-
-            @keyframes titleBounce {
-                0%, 100% { transform: translateY(0) scale(1); }
-                50% { transform: translateY(-5px) scale(1.01); }
-            }
-
-            @keyframes shine {
-                0% { left: -150%; }
-                50%, 100% { left: 150%; }
-            }
-
-            .logo {
-                color: #FFD700;
-                text-shadow: 
-                    1px 1px 0 #000,
-                    2px 2px 0 #EC1D2F,
-                    3px 3px 0 darkred,
-                    0 0 15px rgba(255, 215, 0, 0.8);
-                letter-spacing: 0.2rem;
-                cursor: pointer;
-                text-decoration: none;
-                display: inline-block;
-                transition: all 0.4s ease;
-                animation: titleBounce 4s ease-in-out infinite;
-                background: linear-gradient(180deg, #FFD700 0%, #FFA500 50%, #FF8C00 100%);
-                -webkit-background-clip: text;
-                -webkit-text-fill-color: transparent;
-                background-clip: text;
-                padding: 30px 60px;
-                position: relative;
-                filter: drop-shadow(2px 2px 0 #EC1D2F) drop-shadow(3px 3px 0 darkred);
-            }
-
-            /* エンブレム背景 */
-            .logo::before {
-                content: '';
-                position: absolute;
-                top: 0;
-                left: 50%;
-                transform: translateX(-50%);
-                width: 120%;
-                height: 100%;
-                background: linear-gradient(135deg, #EC1D2F 0%, #DC143C 50%, #8B0000 100%);
-                border-radius: 20px;
-                z-index: -2;
-                clip-path: polygon(
-                    10% 0%, 90% 0%, 100% 10%, 100% 90%, 90% 100%, 10% 100%, 0% 90%, 0% 10%
-                );
-                box-shadow: 
-                    0 10px 30px rgba(0, 0, 0, 0.4),
-                    inset 0 -5px 15px rgba(0, 0, 0, 0.4),
-                    inset 0 5px 15px rgba(255, 255, 255, 0.2);
-            }
-
-            /* 装飾的な枠線 */
-            .logo::after {
-                content: '';
-                position: absolute;
-                top: -5px;
-                left: 50%;
-                transform: translateX(-50%);
-                width: calc(120% + 10px);
-                height: calc(100% + 10px);
-                background: linear-gradient(45deg, #FFD700, #FFA500);
-                border-radius: 22px;
-                z-index: -3;
-                clip-path: polygon(
-                    10% 0%, 90% 0%, 100% 10%, 100% 90%, 90% 100%, 10% 100%, 0% 90%, 0% 10%
-                );
-            }
-
-            /* 光るエフェクト */
-            .logo:hover::before {
-                box-shadow: 
-                    0 15px 40px rgba(236, 29, 47, 0.6),
-                    inset 0 -5px 15px rgba(0, 0, 0, 0.4),
-                    inset 0 5px 15px rgba(255, 255, 255, 0.3),
-                    0 0 30px rgba(255, 215, 0, 0.5);
-            }
-
-            .logo:hover {
-                transform: scale(1.05);
-                animation: titleBounce 2s ease-in-out infinite;
-            }
-
-            .shuffle-button-container {
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                justify-content: center;
-                width: 120px;
-                height: 120px;
-                cursor: pointer;
-                transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-                border-radius: 20px;
-                background: linear-gradient(135deg, #FFD700, #FFA500, #FF6347);
-                position: relative;
-                box-shadow: 0 10px 25px rgba(255, 165, 0, 0.5),
-                           inset 0 -5px 15px rgba(0, 0, 0, 0.2);
-                animation: shuffleFloat 3s ease-in-out infinite;
-                flex-shrink: 0;
-                border: 4px solid #EC1D2F;
-                font-family: "Mochiy Pop One", serif;
-                text-decoration: none;
-                color: white;
-                text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-            }
-
-            .shuffle-button-container::before {
-                content: '🎲';
-                position: absolute;
-                top: 15px;
-                font-size: 2.5em;
-                animation: diceRoll 2s ease-in-out infinite;
-            }
-
-            @keyframes diceRoll {
-                0%, 100% { transform: rotate(0deg); }
-                25% { transform: rotate(-15deg); }
-                75% { transform: rotate(15deg); }
-            }
-
-            .shuffle-button-container::after {
-                content: 'ランダム';
-                position: absolute;
-                bottom: 15px;
-                font-size: 0.8em;
-                font-weight: bold;
-            }
-
-            @keyframes shuffleFloat {
-                0%, 100% { transform: translateY(0) rotate(0deg); }
-                50% { transform: translateY(-10px) rotate(5deg); }
-            }
-
-            .shuffle-button-image {
-                display: none;
-            }
-
-            .shuffle-button-container:hover {
-                transform: scale(1.15) translateY(-5px);
-                box-shadow: 0 15px 40px rgba(255, 165, 0, 0.8), 
-                           0 0 30px rgba(255, 215, 0, 0.6),
-                           inset 0 -5px 20px rgba(0, 0, 0, 0.3);
-                animation: none;
-                background: linear-gradient(135deg, #FFA500, #FF6347, #EC1D2F);
-            }
-
-            .shuffle-button-container:hover::before {
-                animation: diceRoll 0.5s ease-in-out infinite;
-            }
-
-            .shuffle-button-container:active {
-                transform: scale(1.05) translateY(-2px);
-            }
-
-            /* 停止ボタン */
-            .stop-button-container {
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                justify-content: center;
-                width: 120px;
-                height: 120px;
-                cursor: pointer;
-                transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-                border-radius: 20px;
-                background: linear-gradient(135deg, #667eea, #764ba2, #4a148c);
-                position: relative;
-                box-shadow: 0 10px 25px rgba(118, 75, 162, 0.5),
-                           inset 0 -5px 15px rgba(0, 0, 0, 0.2);
-                animation: stopFloat 3s ease-in-out infinite;
-                flex-shrink: 0;
-                border: 4px solid #EC1D2F;
-                font-family: "Mochiy Pop One", serif;
-                text-decoration: none;
-                color: white;
-                text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-            }
-
-            .stop-button-container::before {
-                content: '⏸️';
-                position: absolute;
-                top: 15px;
-                font-size: 2.5em;
-                animation: stopPulse 2s ease-in-out infinite;
-            }
-
-            .stop-button-container[data-state="paused"]::before {
-                content: '▶️';
-            }
-
-            @keyframes stopPulse {
-                0%, 100% { transform: scale(1); }
-                50% { transform: scale(1.1); }
-            }
-
-            .stop-button-container::after {
-                content: '停止';
-                position: absolute;
-                bottom: 15px;
-                font-size: 0.8em;
-                font-weight: bold;
-            }
-
-            .stop-button-container[data-state="paused"]::after {
-                content: '再生';
-            }
-
-            @keyframes stopFloat {
-                0%, 100% { transform: translateY(0); }
-                50% { transform: translateY(-10px); }
-            }
-
-            .stop-button-container:hover {
-                transform: scale(1.15) translateY(-5px);
-                box-shadow: 0 15px 40px rgba(118, 75, 162, 0.8), 
-                           0 0 30px rgba(102, 126, 234, 0.6),
-                           inset 0 -5px 20px rgba(0, 0, 0, 0.3);
-                animation: none;
-                background: linear-gradient(135deg, #4a148c, #764ba2, #667eea);
-            }
-
-            .stop-button-container:hover::before {
-                animation: stopPulse 0.5s ease-in-out infinite;
-            }
-
-            .stop-button-container:active {
-                transform: scale(1.05) translateY(-2px);
-            }
-
-            /* 画面幅が十分なら grid にする */
-            @media (min-width: 1000px) {
-                .wrapper {
-                    display: grid;
-                    grid-template-columns: 840px 1fr;
-                }
-            }
-
-            #video-list {
-                height: 800px;
-                overflow: auto;
-            }
-
-            /* スクロールバーのカスタマイズ */
-            #video-list::-webkit-scrollbar {
-                width: 12px;
-            }
-
-            #video-list::-webkit-scrollbar-track {
-                background: rgba(236, 29, 47, 0.1);
-                border-radius: 10px;
-            }
-
-            #video-list::-webkit-scrollbar-thumb {
-                background: linear-gradient(135deg, #EC1D2F, #FF6347);
-                border-radius: 10px;
-                box-shadow: 0 0 10px rgba(236, 29, 47, 0.5);
-            }
-
-            #video-list::-webkit-scrollbar-thumb:hover {
-                background: linear-gradient(135deg, #FFD700, #FFA500);
-                box-shadow: 0 0 15px rgba(255, 215, 0, 0.8);
-            }
-
-            .video-button {
-                font-family: "RocknRoll One", serif;
-                font-weight: 400;
-                font-style: normal;
-                font-size: 1em;
-                border: 3px solid transparent;
-                background: linear-gradient(white, white) padding-box,
-                           linear-gradient(135deg, #EC1D2F, #FF6347, #FFD700) border-box;
-                margin: 10px;
-                border-radius: 15px;
-                padding: 15px 20px;
-                text-align: left;
-                transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-                cursor: pointer;
-                position: relative;
-                overflow: hidden;
-                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-                display: flex;
-                align-items: center;
-                min-height: 60px;
-            }
-
-            .video-button::before {
-                content: '';
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background: linear-gradient(135deg, rgba(236, 29, 47, 0.1), rgba(255, 215, 0, 0.1));
-                opacity: 0;
-                transition: opacity 0.3s ease;
-                z-index: 0;
-            }
-
-            .video-button::after {
-                content: '▶';
-                position: absolute;
-                left: 10px;
-                font-size: 1.5em;
-                color: #EC1D2F;
-                opacity: 0;
-                transform: translateX(-20px);
-                transition: all 0.3s ease;
-            }
-
-            .video-button:hover {
-                transform: translateY(-5px) scale(1.03);
-                box-shadow: 0 15px 30px rgba(236, 29, 47, 0.4), 0 0 20px rgba(255, 215, 0, 0.3);
-                border-color: #EC1D2F;
-            }
-
-            .video-button:hover::before {
-                opacity: 1;
-            }
-
-            .video-button:hover::after {
-                opacity: 1;
-                transform: translateX(0);
-            }
-
-            .video-button:active {
-                transform: translateY(-2px) scale(1.01);
-            }
-
-            .video-button.video-error {
-                background: linear-gradient(135deg, #555, #777);
-                border-color: #999;
-                opacity: 0.6;
-                cursor: not-allowed;
-                position: relative;
-                padding-right: 140px;
-            }
-
-            .video-button.video-error::before {
-                content: '⚠️';
-                position: absolute;
-                left: 10px;
-                top: 50%;
-                transform: translateY(-50%);
-                font-size: 1.2em;
-                z-index: 2;
-            }
-
-            .error-video-link {
-                position: absolute;
-                right: 10px;
-                top: 50%;
-                transform: translateY(-50%);
-                background: linear-gradient(135deg, #EC1D2F, #FF6347);
-                color: white;
-                padding: 8px 16px;
-                border-radius: 8px;
-                text-decoration: none;
-                font-size: 0.9em;
-                font-weight: bold;
-                z-index: 3;
-                transition: all 0.3s ease;
-                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-            }
-
-            .error-video-link:hover {
-                background: linear-gradient(135deg, #FF6347, #EC1D2F);
-                transform: translateY(-50%) scale(1.05);
-                box-shadow: 0 6px 12px rgba(236, 29, 47, 0.5);
-            }
-
-            .year {
-                font-family: "Mochiy Pop One", serif;
-                font-weight: 400;
-                font-style: normal;
-                font-size: 2.5em;
-                color: #FFD700;
-                text-align: center;
-                width: auto;
-                max-width: 400px;
-                margin: 30px auto;
-                text-shadow: 
-                    2px 2px 0 #EC1D2F,
-                    4px 4px 0 darkred,
-                    0 0 20px rgba(255, 215, 0, 0.8);
-                padding: 15px 50px;
-                border-radius: 50px;
-                background: linear-gradient(135deg, #EC1D2F, #FF6347);
-                box-shadow: 0 10px 30px rgba(236, 29, 47, 0.5),
-                           inset 0 -5px 15px rgba(0, 0, 0, 0.3);
-                position: relative;
-                animation: yearPulse 2s ease-in-out infinite;
-                display: inline-block;
-                cursor: pointer;
-                user-select: none;
-                transition: all 0.3s ease;
-            }
-
-            .year:hover {
-                transform: scale(1.05);
-                box-shadow: 0 15px 40px rgba(236, 29, 47, 0.7),
-                           inset 0 -5px 15px rgba(0, 0, 0, 0.3);
-            }
-
-            .year.collapsed::before {
-                content: '▶';
-                left: 15px;
-            }
-
-            .year:not(.collapsed)::before {
-                content: '▼';
-                left: 15px;
-            }
-
-            .year::before {
-                content: '🎮';
-                position: absolute;
-                left: 20px;
-                font-size: 0.8em;
-            }
-
-            .video-list-container {
-                max-height: none;
-                overflow: visible;
-                transition: max-height 0.5s ease, opacity 0.3s ease;
-                opacity: 1;
-            }
-
-            .video-list-container.collapsed {
-                max-height: 0;
-                opacity: 0;
-                overflow: hidden;
-            }
-
-            .year::after {
-                content: '🎮';
-                position: absolute;
-                right: 20px;
-                font-size: 0.8em;
-            }
-
-            @keyframes yearPulse {
-                0%, 100% { transform: scale(1); box-shadow: 0 10px 30px rgba(236, 29, 47, 0.5); }
-                50% { transform: scale(1.05); box-shadow: 0 15px 40px rgba(236, 29, 47, 0.7), 0 0 30px rgba(255, 215, 0, 0.5); }
-            }
-
-            /* プレイヤー周りの装飾 */
-            .player-controls-wrapper {
-                display: flex;
-                align-items: flex-start;
-                gap: 20px;
-                justify-content: center;
-                flex-wrap: wrap;
-            }
-
-            .player-progress-container {
-                flex: 1 1 auto;
-                max-width: 800px;
-                min-width: 300px;
-                transition: all 0.3s ease;
-            }
-
-            /* 動画切り替えアニメーション */
-            @keyframes videoFadeIn {
-                0% {
-                    opacity: 0;
-                    transform: scale(0.95);
-                }
-                100% {
-                    opacity: 1;
-                    transform: scale(1);
-                }
-            }
-
-            @keyframes videoSlideIn {
-                0% {
-                    transform: translateX(-20px);
-                    opacity: 0;
-                }
-                100% {
-                    transform: translateX(0);
-                    opacity: 1;
-                }
-            }
-
-            .video-switching {
-                animation: videoFadeIn 0.5s ease, videoSlideIn 0.5s ease;
-            }
-
-            .player-info-switching {
-                animation: videoSlideIn 0.4s ease;
-            }
-
-            #player {
-                width: 100%;
-                aspect-ratio: 16 / 9;
-                border-radius: 15px;
-                box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
-            }
-
-            #player-info {
-                background: linear-gradient(135deg, rgba(236, 29, 47, 0.05), rgba(255, 215, 0, 0.05));
-                padding: 20px 25px;
-                border-radius: 15px;
-                margin: 15px 0;
-                border: 3px solid rgba(236, 29, 47, 0.4);
-                font-family: "RocknRoll One", serif;
-                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-                min-height: 80px;
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-                gap: 10px;
-            }
-
-            #player-info a {
-                color: #EC1D2F;
-                text-decoration: none;
-                font-weight: bold;
-                transition: all 0.3s ease;
-                text-shadow: 0 0 5px rgba(236, 29, 47, 0.3);
-                font-size: 1.05em;
-                line-height: 1.7;
-                word-break: break-word;
-            }
-
-            #player-info a:hover {
-                color: #FFD700;
-                text-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
-            }
-
-            #player-info > div {
-                color: #666;
-                font-size: 0.95em;
-                padding: 8px 12px;
-                background: rgba(236, 29, 47, 0.05);
-                border-radius: 8px;
-                border-left: 3px solid #FFD700;
-                margin-top: 5px;
-            }
-
-            /* コンテンツエリアの装飾 */
-            .wrapper > div:first-child {
-                background: rgba(255, 255, 255, 0.95);
-                padding: 20px;
-                border-radius: 20px;
-                box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
-                margin: 20px;
-            }
-
-            /* 見出しスタイル */
-            h2 {
-                font-family: "Mochiy Pop One", serif;
-                color: #EC1D2F;
-                text-shadow: 2px 2px 0 darkred, 0 0 15px rgba(236, 29, 47, 0.5);
-                font-size: 1.6em;
-                line-height: 1.4;
-                margin: 25px 0 15px 0;
-                padding: 15px 20px;
-                background: linear-gradient(135deg, rgba(236, 29, 47, 0.1), rgba(255, 215, 0, 0.1));
-                border-left: 8px solid #EC1D2F;
-                border-radius: 0 15px 15px 0;
-                box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.1);
-                position: relative;
-            }
-
-            h2::before {
-                content: '★';
-                margin-right: 10px;
-                color: #FFD700;
-                text-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
-                animation: starTwinkle 2s ease-in-out infinite;
-            }
-
-            @keyframes starTwinkle {
-                0%, 100% { opacity: 1; transform: scale(1); }
-                50% { opacity: 0.6; transform: scale(1.2); }
-            }
-
-            h3 {
-                font-family: "RocknRoll One", serif;
-                color: #FF6347;
-                font-size: 1.3em;
-                line-height: 1.4;
-                margin: 20px 0 10px 0;
-                padding: 10px 15px;
-                background: linear-gradient(90deg, rgba(255, 99, 71, 0.2), transparent);
-                border-left: 5px solid #FF6347;
-                border-radius: 5px;
-            }
-
-            /* オプションスタイル */
-            #options {
-                background: linear-gradient(135deg, rgba(100, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
-                padding: 20px;
-                border-radius: 15px;
-                border: 3px solid transparent;
-                background-clip: padding-box;
-                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-                position: relative;
-            }
-
-            #options::before {
-                content: '';
-                position: absolute;
-                top: 0;
-                left: 0;
-                right: 0;
-                bottom: 0;
-                border-radius: 15px;
-                padding: 3px;
-                background: linear-gradient(135deg, #667eea, #764ba2);
-                -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-                -webkit-mask-composite: xor;
-                mask-composite: exclude;
-                z-index: -1;
-            }
-
-            #options label {
-                font-family: "RocknRoll One", serif;
-                font-size: 1.05em;
-                cursor: pointer;
-                display: flex;
-                align-items: center;
-                padding: 10px;
-                border-radius: 10px;
-                transition: all 0.3s ease;
-            }
-
-            #options label:hover {
-                background: rgba(236, 29, 47, 0.1);
-                transform: translateX(5px);
-            }
-
-            #options input[type="checkbox"] {
-                width: 25px;
-                height: 25px;
-                margin-right: 15px;
-                cursor: pointer;
-                appearance: none;
-                border: 3px solid #EC1D2F;
-                border-radius: 5px;
-                position: relative;
-                transition: all 0.3s ease;
-                background: white;
-            }
-
-            #options input[type="checkbox"]:checked {
-                background: linear-gradient(135deg, #EC1D2F, #FF6347);
-                box-shadow: 0 0 15px rgba(236, 29, 47, 0.6);
-            }
-
-            #options input[type="checkbox"]:checked::after {
-                content: '✓';
-                position: absolute;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-                color: white;
-                font-size: 18px;
-                font-weight: bold;
-            }
-
-            #options input[type="checkbox"]:hover {
-                transform: scale(1.1);
-                box-shadow: 0 0 10px rgba(236, 29, 47, 0.4);
-            }
-
-            /* 説明エリア */
-            #site-description {
-                background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(240, 248, 255, 0.9));
-                padding: 20px;
-                border-radius: 15px;
-                box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.1),
-                           0 5px 15px rgba(0, 0, 0, 0.1);
-                border: 2px solid rgba(236, 29, 47, 0.2);
-            }
-
-            ul {
-                list-style: none;
-                padding-left: 0;
-            }
-
-            ul li {
-                font-family: "RocknRoll One", serif;
-                padding: 12px 15px;
-                margin: 10px 0;
-                background: white;
-                border-left: 5px solid #FFD700;
-                border-radius: 0 10px 10px 0;
-                box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.1);
-                transition: all 0.3s ease;
-                position: relative;
-                font-size: 0.95em;
-                line-height: 1.7;
-            }
-
-            ul li::before {
-                content: '▸';
-                color: #EC1D2F;
-                font-size: 1.2em;
-                margin-right: 10px;
-                display: inline-block;
-                transition: transform 0.3s ease;
-            }
-
-            ul li:hover {
-                border-left-width: 8px;
-                box-shadow: 5px 5px 15px rgba(236, 29, 47, 0.3);
-            }
-
-            ul li:hover::before {
-                color: #FFD700;
-            }
-
-            ul li a {
-                color: #EC1D2F;
-                text-decoration: none;
-                font-weight: bold;
-                transition: all 0.3s ease;
-            }
-
-            ul li a:hover {
-                color: #FFD700;
-                text-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
-            }
-
-            #video-list {
-                background: rgba(255, 255, 255, 0.95);
-                padding: 15px;
-                border-radius: 20px;
-                box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
-                margin: 20px;
-                height: 800px;
-                overflow: auto;
-            }
-
-            /* スクロールバーのカスタマイズ */
-            #video-list::-webkit-scrollbar {
-                width: 12px;
-            }
-
-            #video-list::-webkit-scrollbar-track {
-                background: rgba(236, 29, 47, 0.1);
-                border-radius: 10px;
-            }
-
-            #video-list::-webkit-scrollbar-thumb {
-                background: linear-gradient(135deg, #EC1D2F, #FF6347);
-                border-radius: 10px;
-                box-shadow: 0 0 10px rgba(236, 29, 47, 0.5);
-            }
-
-            #video-list::-webkit-scrollbar-thumb:hover {
-                background: linear-gradient(135deg, #FFD700, #FFA500);
-                box-shadow: 0 0 15px rgba(255, 215, 0, 0.8);
-            }
-
-            /* プログレスバー（キャンバス） */
-            #myCanvas {
-                width: 100%;
-                height: 25px;
-                border-radius: 12px;
-                box-shadow: inset 0 3px 8px rgba(0, 0, 0, 0.4),
-                           0 4px 15px rgba(0, 0, 0, 0.3);
-                background: linear-gradient(135deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.1));
-                margin-top: 10px;
-                border: 2px solid rgba(236, 29, 47, 0.3);
-                display: block;
-            }
-
-            /* グリッドレイアウト */
-            .video-list-container {
-                display: grid;
-                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-                gap: 0;
-                padding: 10px;
-            }
-
-            @media (max-width: 768px) {
-                .video-list-container {
-                    grid-template-columns: 1fr;
-                }
-                
-                .logo {
-                    font-size: 0.8em;
-                }
-                
-                .title {
-                    font-size: 2.5em;
-                }
-                
-                .shuffle-button-container {
-                    width: 50px;
-                    height: 50px;
-                }                
-                h2 {
-                    font-size: 1.4em;
-                }
-                
-                h3 {
-                    font-size: 1.2em;
-                }
-                
-                ul li {
-                    font-size: 0.9em;
-                }                
-                h2 {
-                    font-size: 1.4em;
-                }
-                
-                h3 {
-                    font-size: 1.2em;
-                }
-                
-                ul li {
-                    font-size: 0.9em;
-                }
-            }
-        </style>
-    </head>
+  -->
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>まいっかボタン</title>
+    <meta name="description" content="にじさんじ所属バーチャルライバー、フレン・E・ルスタリオさんの「まいっか」を自動収集した非公式ファンサイトです。">
+    <meta name="keywords" content="にじさんじ, フレン・E・ルスタリオ, まいっか, バーチャルYouTuber, バーチャルライバー, フレンボタン">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="まいっかボタン">
+    <meta property="og:description" content="にじさんじ所属バーチャルライバー、フレン・E・ルスタリオさんの「まいっか」を自動収集した非公式ファンサイトです。">
+    <meta property="og:url" content="https://furen-button.github.io/furen-maikka-button/">
+    <meta property="og:image" content="https://furen-button.github.io/furen-maikka-button/img/ogp.png">
+    <link rel="icon" href="img/favicon.ico">
+    <link rel="apple-touch-icon" href="img/apple-touch-icon-180x180.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@700&family=Zen+Maru+Gothic:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+  </head>
   <body>
-    <div id="particles"></div>
-    <h1 class="title">
-        <a href="." class="logo">まいっかボタン</a>
-    </h1>
-    <div class="wrapper">
-        <div>
-            <div class="player-controls-wrapper">
-                <div class="player-progress-container">
-                    <div id="player"></div>
-                    <canvas id="myCanvas" width="800" height="25"></canvas>
-                </div>
-                <a id="shuffle-button" class="shuffle-button-container">
-                    <img src="img/shuffle_24dp_EC1D2F_FILL0_wght400_GRAD0_opsz24.png" alt="シャッフル再生" class="shuffle-button-image">
-                </a>
-                <button id="stop-button" class="stop-button-container" data-state="playing"></button>
-                <div id="score-display">
-                    <div>スコア: <span id="score">0</span></div>
-                </div>
+    <div id="petal-layer" aria-hidden="true"></div>
+    <header class="site-header">
+      <a href="." class="logo" aria-label="まいっかボタン">
+        まい<span class="logo-small">っ</span>かボタン
+      </a>
+      <div class="header-rule" aria-hidden="true"></div>
+      <p class="play-total">累計 <span id="play-count">0</span> 回再生</p>
+    </header>
+
+    <main class="site-layout">
+      <section class="invitation-panel" aria-label="再生パネル">
+        <div class="stage">
+          <div class="player-frame">
+            <div id="player"></div>
+          </div>
+
+          <div class="progress-area" aria-label="20秒カウント">
+            <div class="progress-track">
+              <div id="progress-bar" class="progress-bar"></div>
             </div>
-            <div>
-                <h2>再生中の動画</h2>
-                <div id="player-info"></div>
-                <h2>オプション</h2>
-                <div id="options">
-                    <label><input type="checkbox" id="autoplay" checked>自動ランダム再生</label>
-                </div>
-                <h2>説明</h2>
-                <div id="site-description">
-                    <ul>
-                        <li>にじさんじ所属バーチャルライバー、フレン・E・ルスタリオさんの「まいっか」を自動収集した非公式ファンサイトです。</li>
-                        <li>ボタンをクリックすると該当のシーンが再生されます。</li>
-                        <li>本サイトで再生すると当該YouTube枠の再生数にカウントされます。</li>
-                        <li>本サイトで再生できない動画もあります。その場合は「再生中の動画」の欄のリンクからYouTubeで見れます。</li>
-                        <li>PCのブラウザで動作確認しています。</li>
-                        <li>関連サイト: <a href="https://furen-button.github.io/furen-button/">フレンボタン</a></li>
-                        <li><a href="https://forms.gle/5LENSQfXk72uybof9" target="_blank">お問い合わせフォーム</a></li>
-                    </ul>
-                </div>
-                <h3>収集アルゴリズム</h3>
-                <ul>
-                    <li>YouTubeの動画のライブチャットで一定時間内に「まいっか」に相当するキーワードを含むコメントが3回出たタイミングを検知します。最初の「まいっか」が出た時間の一定時間前から再生します。</li>
-                    <li>フローチャート: <a href="./img/maikka-algorithm.svg" target="_blank">maikka-algorithm.svg</a></li>
-                    <li>全部確認しきれていないため誤検知があるかもしれません。ご了承ください。ご報告に協力いただけるなら<a href="https://forms.gle/5LENSQfXk72uybof9" target="_blank">こちらのお問い合わせフォーム</a>にお願いいたします。</li>
-                    <li>2021-12-03 以前が少ないのは、この日の「40万人記念！自分の切り抜きを見るぞ！！【にじさんじ】」の動画の【まいっか】切り抜きの同時視聴後に「まいっか」というコメントが多くなったためです。表記ゆれの統一、バーダー・マインホフ現象、コミュニティの暗黙知から形式知へ。</li>
-                </ul>
-                <h3>更新日</h3>
-                <div>2026-09-27: 1239件</div>
-                <div>2026-01-24: 888件</div>
-                <div>2025-02-02: 780件</div>
-            </div>
+            <span id="remaining-time" class="remaining-time">20秒</span>
+          </div>
+
+          <div class="control-row" aria-label="再生操作">
+            <button id="prev-button" class="side-button" type="button">前へ</button>
+            <button id="seal-button" class="seal-button" type="button" aria-label="まいっかを再生">
+              <svg class="seal-svg" viewBox="0 0 160 160" aria-hidden="true" focusable="false">
+                <path d="M80 7 C91 6 98 17 108 18 C120 19 126 13 136 21 C146 29 139 42 146 52 C153 62 160 67 156 80 C153 91 140 95 139 107 C138 119 143 129 132 138 C123 146 111 139 101 146 C91 153 83 160 71 155 C60 151 58 138 47 136 C35 134 24 139 16 128 C9 119 17 108 13 97 C8 85 -2 78 4 66 C9 56 22 55 25 44 C28 31 25 20 37 14 C48 9 57 18 68 14 C72 12 75 8 80 7 Z"></path>
+              </svg>
+              <span class="seal-emboss">ま</span>
+            </button>
+            <button id="next-button" class="side-button" type="button">次へ</button>
+            <button id="pause-button" class="pause-button" type="button" data-state="playing">一時停止</button>
+          </div>
         </div>
-        <div id="video-list"></div>
-    </div>
+
+        <div class="panel-settings">
+          <div class="mode-area">
+            <div id="mode-control" class="segmented" role="radiogroup" aria-label="再生モード" data-mode="random">
+              <span class="segmented-thumb" aria-hidden="true"></span>
+              <button type="button" data-mode="random" role="radio" aria-checked="true">ランダム</button>
+              <button type="button" data-mode="sequential" role="radio" aria-checked="false">順番</button>
+              <button type="button" data-mode="repeat" role="radio" aria-checked="false">リピート</button>
+            </div>
+
+            <label class="auto-toggle">
+              <input id="auto-next" type="checkbox" checked>
+              <span class="toggle-track" aria-hidden="true"><span></span></span>
+              <span>自動で次へ</span>
+            </label>
+          </div>
+
+          <details id="now-playing-details" class="now-playing" open>
+            <summary>再生中の動画</summary>
+            <div id="player-info" class="player-info">
+              <p id="current-title" class="current-title">読み込み中です</p>
+              <dl class="current-meta">
+                <div>
+                  <dt>配信日時</dt>
+                  <dd id="current-date">--</dd>
+                </div>
+                <div>
+                  <dt>再生位置</dt>
+                  <dd id="current-time">--:--:--</dd>
+                </div>
+              </dl>
+              <a id="current-link" class="current-link" href="https://www.youtube.com/" target="_blank" rel="noreferrer">YouTubeで開く</a>
+            </div>
+          </details>
+        </div>
+      </section>
+
+      <section class="ledger" aria-label="動画台帳">
+        <div class="ledger-toolbar">
+          <label class="search-label">
+            <span class="visually-hidden">検索</span>
+            <input id="search-input" type="search" autocomplete="off" placeholder="タイトルで検索">
+          </label>
+          <label class="sort-label">
+            <span class="visually-hidden">並び替え</span>
+            <select id="sort-select">
+              <option value="newest">新しい順</option>
+              <option value="oldest">古い順</option>
+              <option value="count">まいっか多い順</option>
+            </select>
+          </label>
+          <p id="video-count" class="video-count">0本</p>
+        </div>
+        <div id="video-list" class="video-list"></div>
+        <p id="empty-search" class="empty-search" hidden>該当する動画はありません。キーワードを短くしてみてください</p>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <details open>
+        <summary>説明</summary>
+        <ul>
+          <li>にじさんじ所属バーチャルライバー、フレン・E・ルスタリオさんの「まいっか」を自動収集した非公式ファンサイトです。</li>
+          <li>ボタンをクリックすると該当のシーンが再生されます。</li>
+          <li>本サイトで再生すると当該YouTube枠の再生数にカウントされます。</li>
+          <li>本サイトで再生できない動画もあります。その場合は「再生中の動画」の欄のリンクからYouTubeで見れます。</li>
+          <li>PC・スマートフォンのブラウザで動作確認しています。</li>
+          <li>関連サイト: <a href="https://furen-button.github.io/furen-button/">フレンボタン</a></li>
+          <li><a href="https://forms.gle/5LENSQfXk72uybof9" target="_blank">お問い合わせフォーム</a></li>
+        </ul>
+      </details>
+
+      <details>
+        <summary>収集アルゴリズム</summary>
+        <ul>
+          <li>YouTubeの動画のライブチャットで一定時間内に「まいっか」に相当するキーワードを含むコメントが3回出たタイミングを検知します。最初の「まいっか」が出た時間の一定時間前から再生します。</li>
+          <li>フローチャート: <a href="./img/maikka-algorithm.svg" target="_blank">maikka-algorithm.svg</a></li>
+          <li>全部確認しきれていないため誤検知があるかもしれません。ご了承ください。ご報告に協力いただけるなら<a href="https://forms.gle/5LENSQfXk72uybof9" target="_blank">こちらのお問い合わせフォーム</a>にお願いいたします。</li>
+          <li>2021-12-03 以前が少ないのは、この日の「40万人記念！自分の切り抜きを見るぞ！！【にじさんじ】」の動画の【まいっか】切り抜きの同時視聴後に「まいっか」というコメントが多くなったためです。表記ゆれの統一、バーダー・マインホフ現象、コミュニティの暗黙知から形式知へ。</li>
+        </ul>
+      </details>
+
+      <details>
+        <summary>更新日</summary>
+        <div class="updates">
+          <div>2026-09-27: 1239件</div>
+          <div>2026-01-24: 888件</div>
+          <div>2025-02-02: 780件</div>
+        </div>
+      </details>
+    </footer>
+
     <script src="script.js"></script>
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-5XGSGWHXGS"></script>
