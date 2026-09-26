@@ -7,11 +7,13 @@
     "lint": "eslint src/**/*.js scripts/**/*.mjs",
     "lint:fix": "eslint src/**/*.js scripts/**/*.mjs --fix",
     "build:data": "node scripts/build-maikka.mjs",
-    "build:algorithm": "npx -y @mermaid-js/mermaid-cli@11 -i docs/maikka-algorithm.mmd -o src/img/maikka-algorithm.svg -t neutral -b white"
+    "build:algorithm": "npx -y @mermaid-js/mermaid-cli@11 -i docs/maikka-algorithm.mmd -o src/img/maikka-algorithm.svg -t neutral -b white",
+    "screenshot": "node scripts/screenshot.mjs"
   },
   "devDependencies": {
     "@duckdb/node-api": "^1.5.5-r.5",
     "eslint": "^7.32.0",
-    "http-server": "^14.1.1"
+    "http-server": "^14.1.1",
+    "playwright": "^1.63.0"
   }
 }
